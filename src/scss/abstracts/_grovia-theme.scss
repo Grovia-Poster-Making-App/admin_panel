@@ -1,0 +1,161 @@
+@use './variables' as *;
+
+// Grovia Theme Specific Styles
+
+// Primary gradient for buttons and highlights
+.grovia-primary-gradient {
+  background: linear-gradient(90deg, 
+    #{$groviaGradientStart} 0%, 
+    #{$groviaGradientMiddle1} 34.13%, 
+    #{$groviaGradientMiddle2} 66.83%, 
+    #{$groviaGradientEnd} 100%
+  );
+}
+
+// Background gradients
+.grovia-bg-gradient {
+  background: linear-gradient(135deg, 
+    #{$groviaLightBg1} 0%, 
+    #{$groviaLightBg2} 33%, 
+    #{$groviaLightBg3} 66%, 
+    #{$groviaLightBg4} 100%
+  );
+}
+
+.grovia-bg-gradient-diagonal {
+  background: linear-gradient(45deg, 
+    #{$groviaLightBg1} 0%, 
+    #{$groviaLightBg2} 25%, 
+    #{$groviaLightBg3} 50%, 
+    #{$groviaLightBg4} 75%, 
+    #{$groviaLightBg1} 100%
+  );
+}
+
+// Card styling with Grovia theme
+.grovia-card {
+  background: rgba(30, 30, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+// Button styling
+.grovia-button {
+  background: linear-gradient(90deg, 
+    #{$groviaGradientStart} 0%, 
+    #{$groviaGradientMiddle1} 50%, 
+    #{$groviaGradientEnd} 100%
+  );
+  color: #{$groviaDarkBg};
+  border: none;
+  border-radius: 28px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(252, 186, 7, 0.3);
+  }
+}
+
+// Input styling
+.grovia-input {
+  background: rgba(30, 30, 46, 0.6);
+  border: 1px solid rgba(252, 186, 7, 0.2);
+  border-radius: 12px;
+  color: #{$groviaDarkText};
+  padding: 12px 16px;
+  
+  &:focus {
+    border-color: #{$groviaPrimary};
+    box-shadow: 0 0 0 3px rgba(252, 186, 7, 0.1);
+  }
+  
+  &::placeholder {
+    color: #{$groviaDarkAccent};
+  }
+}
+
+// Text colors
+.grovia-text-primary {
+  color: #{$groviaPrimary};
+}
+
+.grovia-text-secondary {
+  color: #{$groviaSecondary};
+}
+
+.grovia-text-light {
+  color: #{$groviaDarkText};
+}
+
+.grovia-text-muted {
+  color: #{$groviaDarkTextSecondary};
+}
+
+// Icon styling
+.grovia-icon {
+  color: #{$groviaPrimary};
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #{$groviaSecondary};
+  }
+}
+
+// Sidebar specific styling
+.grovia-sidebar {
+  background: linear-gradient(180deg, 
+    #{$groviaLightBg1} 0%, 
+    #{$groviaLightBg2} 50%, 
+    #{$groviaLightBg3} 100%
+  );
+  border-right: 1px solid rgba(252, 186, 7, 0.1);
+}
+
+// Top navigation styling
+.grovia-topnav {
+  background: rgba(30, 30, 46, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(252, 186, 7, 0.1);
+}
+
+// Table styling
+.grovia-table {
+  background: rgba(30, 30, 46, 0.8);
+  border-radius: 16px;
+  overflow: hidden;
+  
+  th {
+    background: rgba(252, 186, 7, 0.1);
+    color: #{$groviaPrimary};
+  }
+  
+  td {
+    border-bottom: 1px solid rgba(252, 186, 7, 0.05);
+  }
+}
+
+// Modal styling
+.grovia-modal {
+  background: rgba(30, 30, 46, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(252, 186, 7, 0.2);
+  border-radius: 20px;
+}
+
+// Loading spinner
+.grovia-spinner {
+  border: 3px solid rgba(252, 186, 7, 0.1);
+  border-top: 3px solid #{$groviaPrimary};
+  border-radius: 50%;
+  animation: grovia-spin 1s linear infinite;
+}
+
+@keyframes grovia-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,55 @@
+@use "../../scss/abstracts/" as *;
+
+.summary__box {
+  margin: 0 1rem 1.8rem;
+  flex: 1 1 350px;
+
+  &__wrapper {
+    @include flex();
+    margin: 1rem 0;
+    flex: 1;
+    flex-wrap: wrap;
+    background: rgba(30, 30, 46, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(252, 186, 7, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      border-color: rgba(252, 186, 7, 0.2);
+    }
+  }
+
+  &__icon {
+    margin: 0 1rem;
+    color: #{$groviaPrimary};
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: #{$groviaSecondary};
+    }
+  }
+  
+  &__info__amount {
+    display: flex;
+    margin-top: 0.3rem;
+    flex-wrap: wrap;
+    
+    & h4 {
+      margin-top: 1rem;
+      font-size: 32px;
+      font-weight: 600;
+      white-space: nowrap;
+      color: #{$groviaDarkText};
+    }
+    
+    & sup {
+      font-size: $fontSizeBodyLarge;
+      color: #{$groviaDarkTextSecondary};
+    }
+  }
+}

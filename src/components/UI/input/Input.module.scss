@@ -1,0 +1,59 @@
+@use "../../../scss/abstracts/" as *;
+
+.form__control {
+  position: relative;
+  margin-bottom: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  label {
+    position: static;
+    padding: 0;
+    margin-bottom: 0.5rem;
+    color: #{$groviaDarkText} !important;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: capitalize;
+    align-self: flex-start;
+    background: transparent;
+    border: none;
+  }
+
+  input {
+    padding: 1rem 1.5rem;
+    border: 1px solid rgba(252, 186, 7, 0.2);
+    outline: none;
+    // background: rgba(30, 30, 46, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    min-width: 300px;
+    color: #{$groviaDarkText};
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    
+    &:focus {
+      border-color: #{$groviaPrimary};
+      box-shadow: 0 0 0 3px rgba(252, 186, 7, 0.1);
+      background: rgba(30, 30, 46, 0.8);
+    }
+    
+    &::placeholder {
+      color: #{$groviaDarkAccent};
+    }
+    
+    @media screen and (max-width: 300px) {
+      min-width: auto;
+    }
+  }
+}
+
+html[dir="rtl"] {
+  .form__control {
+    label {
+      left: auto;
+      right: 10px;
+    }
+  }
+}

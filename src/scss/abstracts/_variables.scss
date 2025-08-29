@@ -1,0 +1,63 @@
+/* ****Fonts**** */
+
+//Body size
+$fontSizeBodySmall: 12px; //line-height:16px; letter-spacing:0.4%;
+$fontSizeBodyMedium: 14px; //line-height:20px; letter-spacing:0.25%;
+$fontSizeBodyLarge: 16px; //line-height:24px; letter-spacing:0.15%;
+//Headline size
+$fontSizeHeadlineSmall: 24px; //line-height:32px; letter-spacing:0;
+$fontSizeHeadlineMedium: 45px; //lineHeight:36px; letter-spacing:0;
+$fontSizeHeadlineLarge: 57px; //line-height:40px letter-spacing:0;
+//Display size
+$fontSizeDisplaySmall: 64px; //line-height:44px; letter-spacing:0;
+//helper font size
+$fontSizeTableStatus: 9px; //line-height:16px; letter-spacing:0.4%;
+
+/* ****Grovia Theme Colors**** */
+// Primary Colors
+$groviaPrimary: #FCBA07;
+$groviaSecondary: #FAAF08;
+$groviaGradientStart: #F9F295;
+$groviaGradientMiddle1: #E0AA3E;
+$groviaGradientMiddle2: #FAF398;
+$groviaGradientEnd: #B88A44;
+
+// Dark Theme Colors
+$groviaDarkBg: #090B18;
+$groviaDarkSurface: #1E1E2E;
+$groviaDarkText: #FFFFFF;
+$groviaDarkTextSecondary: #BBBBBB;
+$groviaDarkAccent: #888888;
+
+// Light Background Colors
+$groviaLightBg1: #5A2A7A;
+$groviaLightBg2: #0A051F;
+$groviaLightBg3: #08030D;
+$groviaLightBg4: #3A0F7A;
+
+/* ****Shadows**** */
+$mainBoxShadow: 0 6px 30px 5px rgba(0, 0, 0, 0.12);
+$secondBoxShadow: -3px 6px 30px 5px rgba(0, 0, 0, 0.3);
+
+/* ****Border radius**** */
+$smallBorderRadius: 8px; //for buttons
+$mediumBorderRadius: 12px; //for boxes
+$largeBorderRadius: 20px; //for tables and main section in tablet and mobile.
+
+/* ****icon size**** */
+$smallIconSize: 20px;
+$largeIconSize: 48px;
+
+/* **** Device width **** */
+//This design is mobile first
+$mobile-width: 576px;
+$tablet-width: 768px;
+$desktop-width: 992px;
+$largeDesktop-width: 1200px;
+
+/* **** helper variable **** */
+$sideBarOpenWidth: 230px;
+$sideBarCloseWidth: 75px;
+$spacing: 60px;
+$mobileSpacing: 16px;
+$sideBarLogoHeight: 171px;
