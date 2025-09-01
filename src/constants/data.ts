@@ -109,6 +109,78 @@ const data = {
       },
     ],
   },
+  templates: {
+    categories: [
+      "Banner 1",
+      "Banner 2", 
+      "Stories",
+      "Special Events",
+      "Welcome",
+      "Motivational Dose",
+      "Rank Promotions",
+      "Leader's Offers",
+      "Achievements",
+      "Income Promotions",
+      "Bonanza Promotions",
+      "Greetings",
+      "Thank You Post",
+      "Schedule",
+      "Meetings (With Photo)",
+      "Meetings (Without Photo)",
+      "Custom Meetings",
+      "Capping"
+    ],
+    templates: [
+      {
+        id: 1,
+        preview: "sample1.png",
+        title: "Welcome Banner",
+        category: "Welcome",
+        downloads: 120,
+        expiresAt: "01-10-2025"
+      },
+      {
+        id: 2,
+        preview: "sample2.png", 
+        title: "Motivation Story",
+        category: "Motivational Dose",
+        downloads: 85,
+        expiresAt: "15-09-2025"
+      },
+      {
+        id: 3,
+        preview: "sample3.png",
+        title: "Special Event Flyer", 
+        category: "Special Events",
+        downloads: 200,
+        expiresAt: "20-11-2025"
+      },
+      {
+        id: 4,
+        preview: "sample4.png",
+        title: "Leadership Offer",
+        category: "Leader's Offers", 
+        downloads: 65,
+        expiresAt: "05-12-2025"
+      },
+      {
+        id: 5,
+        preview: "sample5.png",
+        title: "Achievement Badge",
+        category: "Achievements",
+        downloads: 150,
+        expiresAt: "30-08-2025"
+      },
+      {
+        id: 6,
+        preview: "sample6.png",
+        title: "Income Promotion",
+        category: "Income Promotions",
+        downloads: 95,
+        expiresAt: "12-10-2025"
+      }
+    ]
+  }
 };
 
 export default data;

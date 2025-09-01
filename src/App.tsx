@@ -7,6 +7,7 @@ import LoadingSpinner from "./components/UI/loadingSpinner/LoadingSpinner";
 import "./scss/App.scss";
 
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
+const Templates = React.lazy(() => import("./pages/templates"));
 const Customers = React.lazy(() => import("./pages/Customers"));
 const CustomerEdit = React.lazy(() => import("./pages/CustomerEdit"));
 const Products = React.lazy(() => import("./pages/Products"));
@@ -23,7 +24,7 @@ function App() {
           <Route element={<AuthLayout />}>
             <Route path="/" element={<MainLayout />}>
               <Route index element={<Dashboard />} />
-              <Route path="/templates" element={<BlankPage />} />
+              <Route path="/templates" element={<Templates />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/customers/:customerId" element={<CustomerEdit />} />
               <Route path="/products" element={<Products />} />

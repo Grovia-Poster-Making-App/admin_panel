@@ -5,8 +5,12 @@
 }
 
 .main {
-  background: rgba(30, 30, 46, 0.8);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, 
+    #{$groviaLightBg1} 0%, 
+    #{$groviaLightBg2} 33%, 
+    #{$groviaLightBg3} 66%, 
+    #{$groviaLightBg4} 100%
+  );
   overflow-x: hidden;
   flex-grow: 1;
 
@@ -26,8 +30,6 @@
 
     @include tablet {
       position: relative;
-      background: rgba(30, 30, 46, 0.8);
-      backdrop-filter: blur(10px);
       z-index: 100;
     }
 
