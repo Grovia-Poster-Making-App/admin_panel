@@ -17,7 +17,7 @@ const categories = [
   "Banner 2", 
   "Stories",
   "Special Events",
-  "Welcome",
+  "Buttons",
   "Motivational Dose",
   "Rank Promotions",
   "Leader's Offers",
@@ -41,7 +41,7 @@ const dummyTemplates: Template[] = [
     category: "Welcome",
     downloads: 120,
     expiresAt: "01-10-2025",
-    preview: "https://thumbs.dreamstime.com/b/welcome-banner-shiny-colorful-confetti-vector-paper-illustration-welcome-banner-colorful-confetti-100006906.jpg"
+    preview: "https://previews.123rf.com/images/maxborovkov/maxborovkov1711/maxborovkov171100062/89114649-white-welcome-banner-with-colorful-paper-serpentine-vector-illustration.jpg"
   },
   {
     id: "2", 
@@ -89,6 +89,7 @@ const Templates: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [templates, setTemplates] = useState<Template[]>(dummyTemplates);
+  const [showCreateDropdown, setShowCreateDropdown] = useState(false);
 
   // Filter templates based on search and category
   const filteredTemplates = useMemo(() => {
@@ -116,9 +117,22 @@ const Templates: React.FC = () => {
     setTemplates(prev => prev.filter(template => template.id !== id));
   };
 
-  const handleCreateTemplate = () => {
-    console.log("Create new template");
-    // Add create template logic here
+  const handleCreateTemplate = (category?: string) => {
+    if (category) {
+      console.log("Create template for category:", category);
+      // Navigate to create template page based on category
+      if (category === "Banner 1" || category === "Banner 2") {
+        window.location.href = `/create-template/banner?category=${encodeURIComponent(category)}`;
+      } else {
+        // Handle other categories
+        console.log("Create template for:", category);
+      }
+    }
+    setShowCreateDropdown(false);
+  };
+
+  const toggleCreateDropdown = () => {
+    setShowCreateDropdown(!showCreateDropdown);
   };
 
   return (
@@ -129,13 +143,29 @@ const Templates: React.FC = () => {
           <h2 className={classes.title}>Templates</h2>
         </div>
         <div className={classes.actionSection}>
-          <button 
-            className={classes.createButton}
-            onClick={handleCreateTemplate}
-          >
-            <span className={classes.buttonIcon}>+</span>
-            Create Template
-          </button>
+          <div className={classes.createButtonContainer}>
+            <button 
+              className={classes.createButton}
+              onClick={toggleCreateDropdown}
+            >
+              <span className={classes.buttonIcon}>+</span>
+              Create Template
+            </button>
+            
+            {showCreateDropdown && (
+              <div className={classes.createDropdown}>
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    className={classes.dropdownItem}
+                    onClick={() => handleCreateTemplate(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
