@@ -277,6 +277,12 @@ const Banner: React.FC = () => {
                     handleInputChange(template.id, "expiresAt", e.target.value)
                   }
                   className={classes.input}
+                  onFocus={(e) => {
+                    const input = e.target as any;
+                    if (input.showPicker && typeof input.showPicker === 'function') {
+                      input.showPicker();
+                    }
+                  }}
                 />
                 {template.expiresAt && (
                   <span className={classes.dateFormat}>
