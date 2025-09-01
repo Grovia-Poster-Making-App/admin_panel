@@ -23,11 +23,16 @@ function App() {
           <Route element={<AuthLayout />}>
             <Route path="/" element={<MainLayout />}>
               <Route index element={<Dashboard />} />
+              <Route path="/templates" element={<BlankPage />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/customers/:customerId" element={<CustomerEdit />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<ProductEdit />} />
               <Route path="/orders" element={<BlankPage />} />
+              <Route path="/music" element={<BlankPage />} />
+              <Route path="/notifications" element={<BlankPage />} />
+              <Route path="/refer-earn" element={<BlankPage />} />
+              <Route path="/support" element={<BlankPage />} />
               <Route path="/analytics" element={<BlankPage />} />
               <Route path="/discount" element={<BlankPage />} />
               <Route path="/inventory" element={<BlankPage />} />

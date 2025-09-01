@@ -17,8 +17,10 @@ const SaleChart = () => {
       {
         label: t("summaryOfSale"),
         data: data.revenueByMonths.data,
-        borderColor: "#ee384e",
-        backgroundColor: "#3c4b6d",
+        borderColor: "#fcba07",
+        backgroundColor: "rgba(252, 186, 7, 0.2)",
+        borderWidth: 3,
+        tension: 0.4,
       },
     ],
   });
@@ -29,7 +31,10 @@ const SaleChart = () => {
       {
         label: t("summaryOfOrders"),
         data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "rgba(252, 186, 7, 0.8)",
+        borderColor: "#fcba07",
+        borderWidth: 2,
+        borderRadius: 8,
       },
     ],
   });
@@ -40,7 +45,10 @@ const SaleChart = () => {
       {
         label: t("summaryOfRevenue"),
         data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "rgba(252, 186, 7, 0.6)",
+        borderColor: "#fcba07",
+        borderWidth: 2,
+        borderRadius: 8,
       },
     ],
   });
