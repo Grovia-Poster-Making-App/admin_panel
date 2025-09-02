@@ -120,12 +120,37 @@ const Templates: React.FC = () => {
   const handleCreateTemplate = (category?: string) => {
     if (category) {
       console.log("Create template for category:", category);
-      // Navigate to create template page based on category
-      if (category === "Banner 1" || category === "Banner 2") {
-        window.location.href = `/create-template/banner?category=${encodeURIComponent(category)}`;
+      
+      // Define routing for each category
+      const categoryRoutes: { [key: string]: string } = {
+        "Banner 1": `/create-template/banner?category=${encodeURIComponent(category)}`,
+        "Banner 2": `/create-template/banner?category=${encodeURIComponent(category)}`,
+        "Stories": `/create-template/stories?category=${encodeURIComponent(category)}`,
+        "Special Events": `/create-template/special-events?category=${encodeURIComponent(category)}`,
+        "Buttons": `/create-template/buttons?category=${encodeURIComponent(category)}`,
+        "Motivational Dose": `/create-template/motivational-dose?category=${encodeURIComponent(category)}`,
+        "Rank Promotions": `/create-template/rank-promotions?category=${encodeURIComponent(category)}`,
+        "Leader's Offers": `/create-template/leaders-offers?category=${encodeURIComponent(category)}`,
+        "Achievements": `/create-template/achievements?category=${encodeURIComponent(category)}`,
+        "Income Promotions": `/create-template/income-promotions?category=${encodeURIComponent(category)}`,
+        "Bonanza Promotions": `/create-template/bonanza-promotions?category=${encodeURIComponent(category)}`,
+        "Greetings": `/create-template/greetings?category=${encodeURIComponent(category)}`,
+        "Thank You Post": `/create-template/thank-you-post?category=${encodeURIComponent(category)}`,
+        "Schedule": `/create-template/schedule?category=${encodeURIComponent(category)}`,
+        "Meetings (With Photo)": `/create-template/meetings-with-photo?category=${encodeURIComponent(category)}`,
+        "Meetings (Without Photo)": `/create-template/meetings-without-photo?category=${encodeURIComponent(category)}`,
+        "Custom Meetings": `/create-template/custom-meetings?category=${encodeURIComponent(category)}`,
+        "Capping": `/create-template/capping?category=${encodeURIComponent(category)}`
+      };
+
+      // Navigate to the appropriate create template page
+      const route = categoryRoutes[category];
+      if (route) {
+        window.location.href = route;
       } else {
-        // Handle other categories
-        console.log("Create template for:", category);
+        console.warn("No route defined for category:", category);
+        // Fallback to a generic create template page
+        window.location.href = `/create-template/generic?category=${encodeURIComponent(category)}`;
       }
     }
     setShowCreateDropdown(false);
