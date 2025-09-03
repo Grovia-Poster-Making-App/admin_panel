@@ -99,33 +99,7 @@ const SupportAnalytics: React.FC = () => {
 
       {/* Key Metrics */}
       <div className={styles.metricsGrid}>
-        <div className={styles.metricCard}>
-          <div className={styles.metricIcon}>
-            <Icon icon="material-symbols:trending-up" />
-          </div>
-          <div className={styles.metricContent}>
-            <h3>Resolution Rate</h3>
-            <p className={styles.metricValue}>76.8%</p>
-            <span className={styles.metricChange}>
-              <Icon icon="material-symbols:trending-up" />
-              +5.2% this month
-            </span>
-          </div>
-        </div>
 
-        <div className={styles.metricCard}>
-          <div className={styles.metricIcon}>
-            <Icon icon="material-symbols:schedule" />
-          </div>
-          <div className={styles.metricContent}>
-            <h3>Avg Response Time</h3>
-            <p className={styles.metricValue}>2.4h</p>
-            <span className={styles.metricChange}>
-              <Icon icon="material-symbols:trending-down" />
-              -0.3h this month
-            </span>
-          </div>
-        </div>
 
         <div className={styles.metricCard}>
           <div className={styles.metricIcon}>

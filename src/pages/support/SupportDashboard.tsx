@@ -6,9 +6,7 @@ interface SupportStats {
   totalOpenTickets: number;
   pendingTickets: number;
   resolvedTickets: number;
-  averageResponseTime: number;
   totalTickets: number;
-  resolutionRate: number;
 }
 
 interface TopUser {
@@ -35,9 +33,7 @@ const SupportDashboard: React.FC = () => {
     totalOpenTickets: 47,
     pendingTickets: 23,
     resolvedTickets: 156,
-    averageResponseTime: 2.4,
-    totalTickets: 203,
-    resolutionRate: 76.8
+    totalTickets: 203
   }), []);
 
   // Dummy top users with repeated issues
@@ -206,33 +202,7 @@ const SupportDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>
-            <Icon icon="material-symbols:schedule" />
-          </div>
-          <div className={styles.statContent}>
-            <h3>Avg Response Time</h3>
-            <p className={styles.statValue}>{supportStats.averageResponseTime}h</p>
-            <span className={styles.statChange}>
-              <Icon icon="material-symbols:trending-down" />
-              -0.3h this week
-            </span>
-          </div>
-        </div>
 
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>
-            <Icon icon="material-symbols:analytics" />
-          </div>
-          <div className={styles.statContent}>
-            <h3>Resolution Rate</h3>
-            <p className={styles.statValue}>{supportStats.resolutionRate}%</p>
-            <span className={styles.statChange}>
-              <Icon icon="material-symbols:trending-up" />
-              +5.2% this week
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* Main Content Grid */}
@@ -305,28 +275,7 @@ const SupportDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className={styles.quickActions}>
-        <h3>Quick Actions</h3>
-        <div className={styles.actionsGrid}>
-          <button className={styles.actionButton}>
-            <Icon icon="material-symbols:add" />
-            <span>Create Ticket</span>
-          </button>
-          <button className={styles.actionButton}>
-            <Icon icon="material-symbols:assignment" />
-            <span>Assign Tickets</span>
-          </button>
-          <button className={styles.actionButton}>
-            <Icon icon="material-symbols:download" />
-            <span>Export Reports</span>
-          </button>
-          <button className={styles.actionButton}>
-            <Icon icon="material-symbols:settings" />
-            <span>Support Settings</span>
-          </button>
-        </div>
-      </div>
+
     </div>
   );
 };

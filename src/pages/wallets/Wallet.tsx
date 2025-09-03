@@ -183,18 +183,7 @@ const Wallet: React.FC = () => {
         <div className={styles.titleSection}>
           <h2 className={styles.title}>Wallet Management</h2>
         </div>
-        <div className={styles.actionSection}>
-          <div className={styles.quickActions}>
-            <button className={styles.quickActionButton}>
-              <Icon icon="material-symbols:add" />
-              Add Funds
-            </button>
-            <button className={styles.quickActionButton}>
-              <Icon icon="material-symbols:remove" />
-              Withdraw
-            </button>
-          </div>
-        </div>
+
       </div>
 
       {/* Wallet Overview Stats */}
@@ -292,27 +281,7 @@ const Wallet: React.FC = () => {
                 </div>
               </div>
               
-              <div className={styles.overviewCard}>
-                <h3>Quick Actions</h3>
-                <div className={styles.quickActionsGrid}>
-                  <button className={styles.actionCard}>
-                    <Icon icon="material-symbols:approval" />
-                    <span>Review Pending</span>
-                  </button>
-                  <button className={styles.actionCard}>
-                    <Icon icon="material-symbols:analytics" />
-                    <span>View Reports</span>
-                  </button>
-                  <button className={styles.actionCard}>
-                    <Icon icon="material-symbols:settings" />
-                    <span>Wallet Settings</span>
-                  </button>
-                  <button className={styles.actionCard}>
-                    <Icon icon="material-symbols:download" />
-                    <span>Export Data</span>
-                  </button>
-                </div>
-              </div>
+
             </div>
           </div>
         )}

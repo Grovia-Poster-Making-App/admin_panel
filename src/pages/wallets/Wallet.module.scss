@@ -41,38 +41,7 @@
   }
 }
 
-.actionSection {
-  .quickActions {
-    display: flex;
-    gap: 12px;
 
-    @media (max-width: $mobile-width) {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-
-  .quickActionButton {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(30, 30, 46, 0.8);
-    color: #{$groviaDarkText};
-    border: 1px solid rgba(252, 186, 7, 0.2);
-    padding: 12px 20px;
-    border-radius: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: $fontSizeBodyMedium;
-
-    &:hover {
-      background: rgba(252, 186, 7, 0.1);
-      border-color: #{$groviaPrimary};
-      color: #{$groviaPrimary};
-    }
-  }
-}
 
 // Stats Section
 .statsSection {
@@ -191,11 +160,10 @@
 .overviewTab {
   .overviewGrid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr;
     gap: 24px;
 
     @media (max-width: $tablet-width) {
-      grid-template-columns: 1fr;
       gap: 20px;
     }
   }
@@ -300,45 +268,7 @@
     }
   }
 
-  .quickActionsGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
 
-    @media (max-width: $mobile-width) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .actionCard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 20px;
-    background: rgba(30, 30, 46, 0.4);
-    border: 1px solid rgba(252, 186, 7, 0.1);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: #{$groviaDarkText};
-
-    &:hover {
-      background: rgba(252, 186, 7, 0.1);
-      border-color: #{$groviaPrimary};
-      color: #{$groviaPrimary};
-      transform: translateY(-2px);
-    }
-
-    svg {
-      font-size: 1.5rem;
-    }
-
-    span {
-      font-size: $fontSizeBodySmall;
-      font-weight: 500;
-    }
-  }
 }
 
 // Approvals Tab
@@ -816,7 +746,5 @@
     grid-template-columns: 1fr !important;
   }
 
-  .quickActionsGrid {
-    grid-template-columns: 1fr !important;
-  }
+
 }

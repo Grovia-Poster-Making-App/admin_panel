@@ -83,6 +83,7 @@
   color: #{$groviaPrimary};
   border-bottom: 2px solid rgba(252, 186, 7, 0.2);
   position: relative;
+
   
   &:first-child {
     border-top-left-radius: 0;
@@ -98,6 +99,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
+  color: #000000;
 }
 
 .sortIcon {
