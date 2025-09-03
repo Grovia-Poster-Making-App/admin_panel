@@ -1,0 +1,448 @@
+@import '../../scss/abstracts/variables';
+
+.supportDashboard {
+  padding: 24px;
+  min-height: 100vh;
+
+  @media (max-width: $mobile-width) {
+    padding: 16px;
+  }
+}
+
+// Header Styles
+.header {
+  margin-bottom: 32px;
+  padding: 20px 24px;
+  background: rgba(30, 30, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  .title {
+    font-size: $fontSizeHeadlineSmall;
+    font-weight: 700;
+    color: #{$groviaPrimary};
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .subtitle {
+    color: #{$groviaDarkText};
+    font-size: $fontSizeBodyMedium;
+    margin: 0;
+    opacity: 0.8;
+  }
+}
+
+// Stats Grid
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+
+  @media (max-width: $mobile-width) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+.statCard {
+  background: rgba($groviaDarkSurface, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(252, 186, 7, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(252, 186, 7, 0.35);
+  }
+
+  .statIcon {
+    font-size: 2.5rem;
+    color: #{$groviaPrimary};
+    opacity: 0.8;
+    margin-bottom: 12px;
+  }
+
+  .statContent {
+    h3 {
+      font-size: $fontSizeBodySmall;
+      color: #{$groviaDarkAccent};
+      margin: 0 0 8px 0;
+      font-weight: 500;
+    }
+
+    .statValue {
+      font-size: $fontSizeHeadlineSmall;
+      color: #{$groviaPrimary};
+      margin: 0 0 8px 0;
+      font-weight: 700;
+    }
+
+    .statChange {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: $fontSizeBodySmall;
+      font-weight: 500;
+
+      &.positive {
+        color: #22c55e;
+      }
+
+      &.negative {
+        color: #ef4444;
+      }
+
+      svg {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+// Content Grid
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+
+  @media (max-width: $tablet-width) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.topUsersCard,
+.recentActivityCard {
+  background: rgba($groviaDarkSurface, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(252, 186, 7, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h3 {
+      font-size: $fontSizeBodyLarge;
+      font-weight: 600;
+      color: #{$groviaPrimary};
+      margin: 0;
+    }
+
+    .viewAllButton {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: transparent;
+      border: none;
+      color: #{$groviaPrimary};
+      font-size: $fontSizeBodySmall;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      svg {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.topUsersList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.userItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(30, 30, 46, 0.4);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(30, 30, 46, 0.6);
+    border-color: rgba(252, 186, 7, 0.2);
+  }
+
+  .rankBadge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, 
+      #{$groviaGradientStart} 0%, 
+      #{$groviaGradientEnd} 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #{$groviaDarkBg};
+    font-size: $fontSizeBodySmall;
+    font-weight: 600;
+  }
+
+  .userAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, 
+      #{$groviaGradientStart} 0%, 
+      #{$groviaGradientEnd} 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #{$groviaDarkBg};
+    font-weight: 600;
+    font-size: $fontSizeBodyMedium;
+  }
+
+  .userInfo {
+    flex: 1;
+
+    h4 {
+      margin: 0 0 4px 0;
+      color: #{$groviaPrimary};
+      font-size: $fontSizeBodyMedium;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0;
+      color: #{$groviaDarkAccent};
+      font-size: $fontSizeBodySmall;
+    }
+  }
+
+  .userStats {
+    display: flex;
+    gap: 16px;
+
+    .statItem {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+
+      .statNumber {
+        font-size: $fontSizeBodyMedium;
+        font-weight: 600;
+        color: #{$groviaPrimary};
+      }
+
+      .statDate {
+        font-size: $fontSizeBodySmall;
+        color: #{$groviaPrimary};
+        font-weight: 600;
+      }
+
+      .statLabel {
+        font-size: $fontSizeBodySmall;
+        color: #{$groviaDarkAccent};
+      }
+    }
+  }
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(30, 30, 46, 0.4);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(30, 30, 46, 0.6);
+    border-color: rgba(252, 186, 7, 0.2);
+  }
+
+  .activityIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+
+    &.success {
+      background: rgba(34, 197, 94, 0.18);
+      color: #22c55e;
+    }
+
+    &.warning {
+      background: rgba(245, 158, 11, 0.18);
+      color: #f59e0b;
+    }
+
+    &.info {
+      background: rgba(59, 130, 246, 0.18);
+      color: #3b82f6;
+    }
+  }
+
+  .activityContent {
+    flex: 1;
+
+    .activityHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+
+      .activityUser {
+        font-weight: 600;
+        color: #{$groviaPrimary};
+        font-size: $fontSizeBodyMedium;
+      }
+
+      .activityTicket {
+        color: #{$groviaDarkAccent};
+        font-size: $fontSizeBodySmall;
+        font-weight: 500;
+      }
+    }
+
+    .activityDetails {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .activityDescription {
+        color: #{$groviaDarkText};
+        font-size: $fontSizeBodySmall;
+      }
+
+      .activityTime {
+        color: #{$groviaDarkAccent};
+        font-size: $fontSizeBodySmall;
+      }
+    }
+  }
+}
+
+// Quick Actions
+.quickActions {
+  h3 {
+    font-size: $fontSizeBodyLarge;
+    font-weight: 600;
+    color: #{$groviaPrimary};
+    margin: 0 0 20px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(252, 186, 7, 0.2);
+  }
+
+  .actionsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+
+    @media (max-width: $mobile-width) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .actionButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    background: rgba(30, 30, 46, 0.4);
+    border: 1px solid rgba(252, 186, 7, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #{$groviaDarkText};
+
+    &:hover {
+      background: rgba(252, 186, 7, 0.1);
+      border-color: #{$groviaPrimary};
+      color: #{$groviaPrimary};
+      transform: translateY(-2px);
+    }
+
+    svg {
+      font-size: 1.5rem;
+    }
+
+    span {
+      font-size: $fontSizeBodySmall;
+      font-weight: 500;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: $tablet-width) {
+  .supportDashboard {
+    padding: 20px;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .supportDashboard {
+    padding: 12px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+    padding: 16px;
+  }
+
+  .statsGrid {
+    margin-bottom: 24px;
+    grid-template-columns: 1fr;
+  }
+
+  .contentGrid {
+    margin-bottom: 24px;
+  }
+
+  .topUsersCard,
+  .recentActivityCard {
+    padding: 16px;
+  }
+
+  .actionsGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,129 @@
+@import '../scss/abstracts/variables';
+
+.customersSection {
+  padding: 24px;
+  min-height: 100vh;
+
+  @media (max-width: $mobile-width) {
+    padding: 16px;
+  }
+}
+
+// Top Bar Styles
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 20px 24px;
+  background: rgba(30, 30, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 9999;
+
+  @media (max-width: $mobile-width) {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+}
+
+.titleSection {
+  .title {
+    font-size: $fontSizeHeadlineSmall;
+    font-weight: 700;
+    color: #{$groviaPrimary};
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .customerCount {
+    color: #{$groviaDarkTextSecondary};
+    font-size: $fontSizeBodySmall;
+    opacity: 0.8;
+  }
+}
+
+.searchContainer {
+  flex: 1;
+  max-width: 400px;
+
+  @media (max-width: $mobile-width) {
+    max-width: 100%;
+  }
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .searchIcon {
+    position: absolute;
+    left: 12px;
+    color: #{$groviaDarkAccent};
+    font-size: 16px;
+    z-index: 1;
+  }
+
+  .searchInput {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    background: rgba(30, 30, 46, 0.8);
+    border: 1px solid rgba(252, 186, 7, 0.2);
+    border-radius: 12px;
+    color: #{$groviaDarkText};
+    font-size: $fontSizeBodyMedium;
+    transition: all 0.3s ease;
+
+    &::placeholder {
+      color: #{$groviaDarkAccent};
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #{$groviaPrimary};
+      box-shadow: 0 0 0 3px rgba(252, 186, 7, 0.1);
+    }
+  }
+
+  .clearButton {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: #{$groviaDarkText};
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: $tablet-width) {
+  .topBar {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .customersSection {
+    padding: 12px;
+  }
+
+  .topBar {
+    margin-bottom: 24px;
+  }
+}

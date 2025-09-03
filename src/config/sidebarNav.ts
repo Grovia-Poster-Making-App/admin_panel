@@ -30,6 +30,12 @@ const sidebarNav = [
     text: "Music",
   },
   {
+    link: "/wallet",
+    section: "wallet",
+    icon: "mdi:wallet",
+    text: "Wallet",
+  },
+  {
     link: "/notifications",
     section: "notifications",
     icon: "mdi:bell",
@@ -37,7 +43,7 @@ const sidebarNav = [
   },
   {
     link: "/refer-earn",
-    section: "referEarn",
+    section: "refer-earn",
     icon: "mdi:share-variant",
     text: "Refer & Earn",
   },

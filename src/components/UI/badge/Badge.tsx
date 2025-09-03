@@ -3,11 +3,16 @@ import { useTranslation } from "react-i18next";
 
 type TBadge = {
   content: string;
+  status?: string;
+  className?: string;
 };
 
 const Badge: React.FC<TBadge> = (props) => {
   const { t } = useTranslation();
-  return <span className={`status-text ${props.content}`}>{t(props.content)}</span>;
+  const statusClass = props.status ? `status-${props.status}` : props.content;
+  const combinedClass = `status-text ${statusClass} ${props.className || ''}`.trim();
+  
+  return <span className={combinedClass}>{t(props.content)}</span>;
 };
 
 export default Badge;

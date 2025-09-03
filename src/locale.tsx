@@ -48,7 +48,7 @@ i18n
           AccountDetails: "Account Details",
           contacts: "Contacts",
           edit: "Edit",
-          userName: "Mr. Lovekesh",
+          userName: "Username",
           userEmail: "user@example.com",
           userRole: "Administrator",
           pass: "Password",

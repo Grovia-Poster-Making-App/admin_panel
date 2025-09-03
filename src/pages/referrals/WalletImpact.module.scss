@@ -1,0 +1,407 @@
+@import '../../scss/abstracts/variables';
+
+.walletImpact {
+  padding: 24px;
+  min-height: 100vh;
+
+  @media (max-width: $mobile-width) {
+    padding: 16px;
+  }
+}
+
+// Header Styles
+.header {
+  margin-bottom: 32px;
+  padding: 20px 24px;
+  background: rgba(30, 30, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  .title {
+    font-size: $fontSizeHeadlineSmall;
+    font-weight: 700;
+    color: #{$groviaPrimary};
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .subtitle {
+    color: #{$groviaDarkText};
+    font-size: $fontSizeBodyMedium;
+    margin: 0;
+    opacity: 0.8;
+  }
+}
+
+// Metrics Grid
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+
+  @media (max-width: $mobile-width) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+.metricCard {
+  background: rgba($groviaDarkSurface, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(252, 186, 7, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(252, 186, 7, 0.35);
+  }
+
+  .metricIcon {
+    font-size: 2.5rem;
+    color: #{$groviaPrimary};
+    opacity: 0.8;
+    margin-bottom: 12px;
+  }
+
+  .metricContent {
+    h3 {
+      font-size: $fontSizeBodySmall;
+      color: #{$groviaDarkAccent};
+      margin: 0 0 8px 0;
+      font-weight: 500;
+    }
+
+    .metricValue {
+      font-size: $fontSizeHeadlineSmall;
+      color: #{$groviaPrimary};
+      margin: 0 0 8px 0;
+      font-weight: 700;
+    }
+
+    .metricChange {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: $fontSizeBodySmall;
+      color: #22c55e;
+      font-weight: 500;
+
+      svg {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+// Breakdown Section
+.breakdownSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+
+  @media (max-width: $tablet-width) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.breakdownCard,
+.recentCreditsCard {
+  background: rgba($groviaDarkSurface, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(252, 186, 7, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  h3 {
+    font-size: $fontSizeBodyLarge;
+    font-weight: 600;
+    color: #{$groviaPrimary};
+    margin: 0 0 20px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(252, 186, 7, 0.2);
+  }
+}
+
+.statusBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.statusItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(30, 30, 46, 0.4);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(30, 30, 46, 0.6);
+    border-color: rgba(252, 186, 7, 0.2);
+  }
+
+  .statusInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .statusIndicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+
+      &.pending {
+        background: #f59e0b;
+      }
+
+      &.approved {
+        background: #22c55e;
+      }
+
+      &.completed {
+        background: #3b82f6;
+      }
+    }
+
+    .statusLabel {
+      color: #{$groviaDarkText};
+      font-size: $fontSizeBodyMedium;
+      font-weight: 500;
+    }
+  }
+
+  .statusAmount {
+    color: #{$groviaPrimary};
+    font-size: $fontSizeBodyMedium;
+    font-weight: 600;
+  }
+}
+
+.recentCreditsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.creditItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(30, 30, 46, 0.4);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(30, 30, 46, 0.6);
+    border-color: rgba(252, 186, 7, 0.2);
+  }
+
+  .creditInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .userAvatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, 
+        #{$groviaGradientStart} 0%, 
+        #{$groviaGradientEnd} 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #{$groviaDarkBg};
+      font-weight: 600;
+      font-size: $fontSizeBodySmall;
+    }
+
+    .creditDetails {
+      .userName {
+        color: #{$groviaPrimary};
+        font-size: $fontSizeBodyMedium;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+
+      .creditDate {
+        color: #{$groviaDarkAccent};
+        font-size: $fontSizeBodySmall;
+      }
+    }
+  }
+
+  .creditAmount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+
+    .amount {
+      color: #{$groviaPrimary};
+      font-size: $fontSizeBodyMedium;
+      font-weight: 600;
+    }
+
+    .statusBadge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: $fontSizeBodySmall;
+      font-weight: 500;
+      text-transform: uppercase;
+
+      &.success {
+        background: rgba(34, 197, 94, 0.18);
+        color: #22c55e;
+      }
+
+      &.warning {
+        background: rgba(245, 158, 11, 0.18);
+        color: #f59e0b;
+      }
+
+      &.info {
+        background: rgba(59, 130, 246, 0.18);
+        color: #3b82f6;
+      }
+    }
+  }
+}
+
+// Impact Summary
+.impactSummary {
+  .summaryCard {
+    background: rgba($groviaDarkSurface, 0.55);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(252, 186, 7, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+
+    @media (max-width: $mobile-width) {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .summaryIcon {
+      font-size: 3rem;
+      color: #{$groviaPrimary};
+      opacity: 0.8;
+      flex-shrink: 0;
+    }
+
+    .summaryContent {
+      flex: 1;
+
+      h3 {
+        font-size: $fontSizeBodyLarge;
+        font-weight: 600;
+        color: #{$groviaPrimary};
+        margin: 0 0 12px 0;
+      }
+
+      p {
+        color: #{$groviaDarkText};
+        font-size: $fontSizeBodyMedium;
+        line-height: 1.6;
+        margin: 0 0 20px 0;
+
+        strong {
+          color: #{$groviaPrimary};
+        }
+      }
+
+      .summaryStats {
+        display: flex;
+        gap: 24px;
+
+        @media (max-width: $mobile-width) {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .summaryStat {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+
+          .statNumber {
+            font-size: $fontSizeBodyLarge;
+            font-weight: 700;
+            color: #{$groviaPrimary};
+          }
+
+          .statLabel {
+            font-size: $fontSizeBodySmall;
+            color: #{$groviaDarkAccent};
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: $tablet-width) {
+  .walletImpact {
+    padding: 20px;
+  }
+
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .breakdownSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .walletImpact {
+    padding: 12px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+    padding: 16px;
+  }
+
+  .metricsGrid {
+    margin-bottom: 24px;
+    grid-template-columns: 1fr;
+  }
+
+  .breakdownSection {
+    margin-bottom: 24px;
+  }
+
+  .breakdownCard,
+  .recentCreditsCard,
+  .summaryCard {
+    padding: 16px;
+  }
+}

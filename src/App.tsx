@@ -25,6 +25,7 @@ const MeetingsWithPhoto = React.lazy(() => import("./pages/createTemplates/meeti
 const MeetingsWithoutPhoto = React.lazy(() => import("./pages/createTemplates/meetingsWithoutPhoto"));
 const CustomMeetings = React.lazy(() => import("./pages/createTemplates/customMeetings"));
 const Cappings = React.lazy(() => import("./pages/createTemplates/cappings"));
+const Orders = React.lazy(() => import("./pages/orders/Orders"));
 const Customers = React.lazy(() => import("./pages/Customers"));
 const CustomerEdit = React.lazy(() => import("./pages/CustomerEdit"));
 const Products = React.lazy(() => import("./pages/Products"));
@@ -32,6 +33,13 @@ const ProductEdit = React.lazy(() => import("./pages/ProductEdit"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const BlankPage = React.lazy(() => import("./pages/BlankPage"));
 const Login = React.lazy(() => import("./pages/Login"));
+const MusicList = React.lazy(() => import("./pages/music/musicList"));
+const AddMusic = React.lazy(() => import("./pages/music/addMusic"));
+const NotificationsList = React.lazy(() => import("./pages/notifications/notifications_list"));
+const SendNotifications = React.lazy(() => import("./pages/notifications/send_notifications"));
+const Wallet = React.lazy(() => import("./pages/wallets/Wallet"));
+const Referrals = React.lazy(() => import("./pages/referrals/Referrals"));
+const Support = React.lazy(() => import("./pages/support/Support"));
 
 function App() {
   return (
@@ -59,15 +67,18 @@ function App() {
               <Route path="/create-template/meetings-without-photo" element={<MeetingsWithoutPhoto />} />
               <Route path="/create-template/custom-meetings" element={<CustomMeetings />} />
               <Route path="/create-template/capping" element={<Cappings />} />
+              <Route path="/orders" element={<Orders />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/customers/:customerId" element={<CustomerEdit />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<ProductEdit />} />
-              <Route path="/orders" element={<BlankPage />} />
-              <Route path="/music" element={<BlankPage />} />
-              <Route path="/notifications" element={<BlankPage />} />
-              <Route path="/refer-earn" element={<BlankPage />} />
-              <Route path="/support" element={<BlankPage />} />
+              <Route path="/music" element={<MusicList />} />
+              <Route path="/music/add" element={<AddMusic />} />
+              <Route path="/wallet" element={<Wallet />} />
+              <Route path="/notifications" element={<NotificationsList />} />
+              <Route path="/notifications/send" element={<SendNotifications />} />
+              <Route path="/refer-earn" element={<Referrals />} />
+              <Route path="/support" element={<Support />} />
               <Route path="/analytics" element={<BlankPage />} />
               <Route path="/discount" element={<BlankPage />} />
               <Route path="/inventory" element={<BlankPage />} />

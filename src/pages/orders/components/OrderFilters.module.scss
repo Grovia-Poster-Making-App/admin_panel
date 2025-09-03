@@ -1,0 +1,134 @@
+@use "../../../scss/abstracts/" as *;
+
+.filtersContainer {
+  background: rgba(30, 30, 46, 0.6);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.filtersRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.filterLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--textColor);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.filterIcon {
+  color: var(--primaryColor);
+  font-size: 1.1rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  background: rgba(30, 30, 46, 0.8);
+  border: 1px solid rgba(252, 186, 7, 0.2);
+  border-radius: 8px;
+  color: var(--textColor);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 150px;
+
+  &:focus {
+    border-color: var(--primaryColor);
+    box-shadow: 0 0 0 2px rgba(252, 186, 7, 0.1);
+  }
+
+  &:hover {
+    border-color: rgba(252, 186, 7, 0.4);
+  }
+
+  option {
+    background: rgba(30, 30, 46, 0.95);
+    color: var(--textColor);
+  }
+}
+
+.clearFiltersButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #ef4444;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.5);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .filtersRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .filterSelect {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .clearFiltersButton {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .filtersContainer {
+    padding: 0.75rem;
+  }
+
+  .filterSelect {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .clearFiltersButton {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}

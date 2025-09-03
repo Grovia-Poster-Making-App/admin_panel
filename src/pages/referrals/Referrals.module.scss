@@ -1,0 +1,121 @@
+@import '../../scss/abstracts/variables';
+
+.referralsSection {
+  min-height: 100vh;
+}
+
+// Top Bar Styles
+.topBar {
+  padding: 24px;
+  background: rgba(30, 30, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 9999;
+
+  @media (max-width: $mobile-width) {
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+}
+
+.titleSection {
+  .title {
+    font-size: $fontSizeHeadlineSmall;
+    font-weight: 700;
+    color: #{$groviaPrimary};
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .subtitle {
+    color: #{$groviaDarkText};
+    font-size: $fontSizeBodyMedium;
+    margin: 0;
+    opacity: 0.8;
+  }
+}
+
+// Tab Navigation
+.tabNavigation {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 8px;
+  background: rgba(30, 30, 46, 0.6);
+  border: 1px solid rgba(252, 186, 7, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+
+  @media (max-width: $mobile-width) {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #{$groviaDarkText};
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: $fontSizeBodyMedium;
+  flex: 1;
+  justify-content: center;
+
+  &:hover {
+    background: rgba(252, 186, 7, 0.1);
+    color: #{$groviaPrimary};
+  }
+
+  &.active {
+    background: linear-gradient(90deg, 
+      #{$groviaGradientStart} 0%, 
+      #{$groviaGradientMiddle1} 50%, 
+      #{$groviaGradientEnd} 100%
+    );
+    color: #{$groviaDarkBg};
+    box-shadow: 0 4px 15px rgba(252, 186, 7, 0.2);
+  }
+
+  svg {
+    font-size: 18px;
+  }
+}
+
+// Tab Content
+.tabContent {
+  // Remove default padding since each component handles its own padding
+  // This allows for consistent spacing across all tabs
+}
+
+// Responsive adjustments
+@media (max-width: $tablet-width) {
+  .topBar {
+    margin-bottom: 20px;
+  }
+
+  .tabNavigation {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .topBar {
+    margin-bottom: 16px;
+    padding: 16px;
+  }
+
+  .tabNavigation {
+    margin-bottom: 16px;
+  }
+}

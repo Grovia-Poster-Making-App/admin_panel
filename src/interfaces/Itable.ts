@@ -32,11 +32,25 @@ export interface IProductsTable {
   category: string;
 }
 
+export interface IOrdersTable {
+  ID: number | string;
+  customerName: string;
+  customerAvatar: string;
+  templateName: string;
+  templateCategory: string;
+  templatePreview: string;
+  orderDate: string;
+  totalAmount: string;
+  status: string;
+  paymentStatus: string;
+}
+
 export type complex =
   | ItopCustomers
   | TlatestTransactions
   | IcustomersTable
-  | IProductsTable;
+  | IProductsTable
+  | IOrdersTable;
 
 export interface Itable {
   limit?: number;
@@ -47,5 +61,9 @@ export interface Itable {
     | TlatestTransactions
     | IcustomersTable
     | IProductsTable
+    | IOrdersTable
   )[];
+  onSort?: (column: string) => void;
+  sortBy?: string | null;
+  sortOrder?: "asc" | "desc";
 }

@@ -64,6 +64,14 @@ td {
   border-bottom: 1px solid rgba(252, 186, 7, 0.1);
 }
 
+// Reduce email column width
+th:nth-child(3),
+td:nth-child(3) {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .userName,
 .product_name {
   display: flex;
@@ -131,34 +139,31 @@ td {
 }
 
 .table__pagination {
-  @include flex(center, flex-end);
+  @include flex(center, center);
   width: 100%;
   margin-top: 20px;
+  gap: 10px;
+}
 
-  &_item ~ &_item {
-    margin-left: 10px;
-  }
+.table__pagination_item {
+  @include flex();
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
 
-  &_item {
-    @include flex();
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
+.table__pagination_item.active,
+.table__pagination_item.active:hover {
+  background-color: var(--primaryColor);
+  color: #ebebeb;
+  font-weight: 600;
+}
 
-  &_item.active,
-  &_item.active:hover {
-    background-color: var(--primaryColor);
-    color: #ebebeb;
-    font-weight: 600;
-  }
-
-  &_item:hover {
-    color: var(--primaryColor);
-    font-weight: 600;
-  }
+.table__pagination_item:hover {
+  color: var(--primaryColor);
+  font-weight: 600;
 }
 
 html[dir="rtl"] {

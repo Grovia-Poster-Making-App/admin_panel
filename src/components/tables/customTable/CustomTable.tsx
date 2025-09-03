@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Itable as Props, complex } from "../../../interfaces/Itable";
 import Card from "../../UI/card/Card";
-import Badge from "../../UI/badge/Badge";
 import Modal from "../../UI/modal/Modal";
 import { useTranslation } from "react-i18next";
 import { Icon } from "@iconify/react";
@@ -33,7 +32,7 @@ const CustomTable: React.FC<Props> = (props) => {
           <td>{item.totalPrice}</td>
           <td>{item.date}</td>
           <td>
-            <Badge content={item.status} />
+            <span className={classes.statusBadge}>{item.status}</span>
           </td>
         </tr>
       );
@@ -110,22 +109,19 @@ const CustomTable: React.FC<Props> = (props) => {
     }
   }
 
-  const initDataShow = () => {
+  const initDataShow = useCallback(() => {
     return props.limit && props.bodyData
       ? props.bodyData.slice(0, Number(props.limit))
       : props.bodyData;
-  };
+  }, [props.limit, props.bodyData]);
 
   const [dataShow, setDataShow] = useState(initDataShow);
-  // const [selectedCategory, setSelectedCategory] = useState(
-  //   props.selectedCategory
-  // );
 
-  // if (props.selectedCategory) {
-  //   if (selectedCategory !== props.selectedCategory)
-  //     setDataShow(props.bodyData);
-  // }
-  // setSelectedCategory(props.selectedCategory);
+  // Update dataShow when props.bodyData changes (for search filtering)
+  useEffect(() => {
+    setDataShow(initDataShow());
+    setCurrPage(0); // Reset to first page when data changes
+  }, [initDataShow]);
 
   let pages = 1;
 
