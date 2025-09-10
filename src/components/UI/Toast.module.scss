@@ -1,0 +1,210 @@
+@import '../../scss/abstracts/variables';
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 350px;
+  max-width: 450px;
+  background: linear-gradient(135deg, 
+    rgba(30, 30, 46, 0.95) 0%, 
+    rgba(40, 40, 60, 0.95) 100%
+  );
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  overflow: hidden;
+  animation: slideInUp 0.4s ease-out;
+  border-left: 4px solid;
+
+  &.success {
+    border-left-color: #{$groviaPrimary};
+    
+    .icon {
+      background: linear-gradient(135deg, 
+        #{$groviaGradientStart} 0%, 
+        #{$groviaGradientMiddle1} 50%, 
+        #{$groviaGradientEnd} 100%
+      );
+      color: white;
+    }
+  }
+
+  &.error {
+    border-left-color: #dc3545;
+    
+    .icon {
+      background: #dc3545;
+      color: white;
+    }
+  }
+
+  &.warning {
+    border-left-color: #ffc107;
+    
+    .icon {
+      background: #ffc107;
+      color: #000;
+    }
+  }
+
+  &.info {
+    border-left-color: #17a2b8;
+    
+    .icon {
+      background: #17a2b8;
+      color: white;
+    }
+  }
+}
+
+.toastContent {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 12px;
+}
+
+.iconContainer {
+  flex-shrink: 0;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.textContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: $fontSizeBodyLarge;
+  font-weight: 600;
+  color: #{$groviaPrimary};
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.message {
+  font-size: $fontSizeBodyMedium;
+  color: #{$groviaDarkTextSecondary};
+  margin: 0;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #{$groviaDarkTextSecondary};
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #{$groviaPrimary};
+  }
+}
+
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, 
+    #{$groviaGradientStart} 0%, 
+    #{$groviaGradientMiddle1} 50%, 
+    #{$groviaGradientEnd} 100%
+  );
+  width: 100%;
+  transform-origin: left;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .toast {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    transform: none;
+    min-width: auto;
+    max-width: none;
+  }
+
+  .toastContent {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: $fontSizeBodyMedium;
+  }
+
+  .message {
+    font-size: $fontSizeBodySmall;
+  }
+}
+
+// Animation for toast exit
+.toast.exiting {
+  animation: slideOutDown 0.3s ease-in forwards;
+}
+
+@keyframes slideOutDown {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100%);
+  }
+}

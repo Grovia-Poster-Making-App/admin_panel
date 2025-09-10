@@ -39,6 +39,46 @@
     margin: 0;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
+
+  .statusIndicators {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+
+    .loadingIndicator {
+      color: #{$groviaPrimary};
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .errorIndicator {
+      color: #ff6b6b;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .refreshButton {
+      background: rgba(252, 186, 7, 0.1);
+      border: 1px solid rgba(252, 186, 7, 0.3);
+      color: #{$groviaPrimary};
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(252, 186, 7, 0.2);
+        border-color: rgba(252, 186, 7, 0.5);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
 }
 
 .actionSection {

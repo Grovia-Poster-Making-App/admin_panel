@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import classes from "./Templates.module.scss";
 
 // Template interface
@@ -90,6 +90,101 @@ const Templates: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [templates, setTemplates] = useState<Template[]>(dummyTemplates);
   const [showCreateDropdown, setShowCreateDropdown] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hasFetched, setHasFetched] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [lastFetchTime, setLastFetchTime] = useState(0);
+
+  // Fetch templates from API
+  const fetchTemplates = async (forceRefresh = false) => {
+    const now = Date.now();
+    const MIN_FETCH_INTERVAL = 5000; // 5 seconds minimum between fetches
+
+    // Prevent duplicate calls
+    if (isFetching && !forceRefresh) {
+      console.log('Fetch already in progress, skipping...');
+      return;
+    }
+
+    // If already fetched and not forcing refresh, skip
+    if (hasFetched && !forceRefresh) {
+      console.log('Templates already fetched, skipping...');
+      return;
+    }
+
+    // Rate limiting - prevent too frequent requests
+    if (!forceRefresh && (now - lastFetchTime) < MIN_FETCH_INTERVAL) {
+      console.log('Rate limited: Too soon since last fetch, skipping...');
+      return;
+    }
+
+    try {
+      setIsFetching(true);
+      setIsLoading(true);
+      setError(null);
+      
+      console.log('Fetching templates from API...');
+      
+      const response = await fetch('http://localhost:3000/api/admin/templates', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      });
+
+      const result = await response.json();
+      
+      if (result.success && result.data) {
+        console.log('Templates fetched successfully:', result.data);
+        
+        // Transform API templates to UI format
+        const transformedApiTemplates = result.data.map((apiTemplate: any) => ({
+          id: apiTemplate._id,
+          title: apiTemplate.category, // Using category as title
+          category: apiTemplate.category,
+          downloads: Math.floor(Math.random() * 200) + 50, // Random downloads for demo
+          expiresAt: new Date(apiTemplate.createdAt).toLocaleDateString('en-GB'),
+          preview: apiTemplate.headImageUrl || apiTemplate.templates?.[0]?.imageUrl || "https://via.placeholder.com/300x200?text=No+Preview"
+        }));
+
+        // Combine with dummy templates
+        setTemplates([...dummyTemplates, ...transformedApiTemplates]);
+        setHasFetched(true);
+        setLastFetchTime(now);
+      } else {
+        throw new Error(result.message || 'Failed to fetch templates');
+      }
+    } catch (err) {
+      console.error('Error fetching templates:', err);
+      
+      // Handle specific error types
+      if (err instanceof Error) {
+        if (err.message.includes('429') || err.message.includes('Too many requests')) {
+          setError('Rate limit exceeded. Please wait a few minutes before trying again.');
+          // Set a longer delay for rate limit errors
+          setLastFetchTime(now + 60000); // 1 minute delay
+        } else {
+          setError(err.message);
+        }
+      } else {
+        setError('Failed to fetch templates');
+      }
+      
+      // Keep dummy templates even if API fails
+    } finally {
+      setIsLoading(false);
+      setIsFetching(false);
+    }
+  };
+
+  // Fetch templates on component mount (only once)
+  useEffect(() => {
+    if (!hasFetched && !isFetching) {
+      fetchTemplates();
+    }
+  }, [hasFetched, isFetching]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Filter templates based on search and category
   const filteredTemplates = useMemo(() => {
@@ -111,10 +206,38 @@ const Templates: React.FC = () => {
     // Add edit logic here
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     console.log("Delete template:", id);
-    // Add delete logic here
-    setTemplates(prev => prev.filter(template => template.id !== id));
+    try {
+      // Check if it's an API template (has _id format) or dummy template
+      if (id.length > 10) { // API templates have longer IDs
+        // This is an API template, call the delete API
+        const response = await fetch(`http://localhost:3000/api/admin/templates/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          console.log('Template deleted successfully');
+          // Refresh templates after deletion (force refresh)
+          fetchTemplates(true);
+        } else {
+          throw new Error(result.message || 'Failed to delete template');
+        }
+      } else {
+        // This is a dummy template, just remove from local state
+        setTemplates(prev => prev.filter(template => template.id !== id));
+      }
+    } catch (err) {
+      console.error('Error deleting template:', err);
+      // Still remove from local state even if API call fails
+      setTemplates(prev => prev.filter(template => template.id !== id));
+    }
   };
 
   const handleCreateTemplate = (category?: string) => {
@@ -166,6 +289,19 @@ const Templates: React.FC = () => {
       <div className={classes.topBar}>
         <div className={classes.titleSection}>
           <h2 className={classes.title}>Templates</h2>
+          <div className={classes.statusIndicators}>
+            {isLoading && <span className={classes.loadingIndicator}>Loading...</span>}
+            {error && <span className={classes.errorIndicator}>Error loading templates</span>}
+            {!isLoading && !error && hasFetched && (
+              <button 
+                className={classes.refreshButton}
+                onClick={() => fetchTemplates(true)}
+                title="Refresh templates"
+              >
+                🔄 Refresh
+              </button>
+            )}
+          </div>
         </div>
         <div className={classes.actionSection}>
           <div className={classes.createButtonContainer}>
@@ -227,7 +363,25 @@ const Templates: React.FC = () => {
 
       {/* Templates Grid */}
       <div className={classes.templatesGrid}>
-        {filteredTemplates.length === 0 ? (
+        {isLoading ? (
+          <div className={classes.loadingState}>
+            <div className={classes.loadingSpinner}>⏳</div>
+            <h3>Loading templates...</h3>
+            <p>Please wait while we fetch your templates</p>
+          </div>
+        ) : error ? (
+          <div className={classes.errorState}>
+            <div className={classes.errorIcon}>❌</div>
+            <h3>Error loading templates</h3>
+            <p>{error}</p>
+            <button 
+              className={classes.retryButton}
+              onClick={() => fetchTemplates(true)}
+            >
+              Retry
+            </button>
+          </div>
+        ) : filteredTemplates.length === 0 ? (
           <div className={classes.emptyState}>
             <div className={classes.emptyIcon}>📄</div>
             <h3>No templates found</h3>
@@ -241,6 +395,10 @@ const Templates: React.FC = () => {
                   src={template.preview} 
                   alt={template.title}
                   className={classes.previewImage}
+                  onError={(e) => {
+                    // Fallback to placeholder if image fails to load
+                    e.currentTarget.src = "https://via.placeholder.com/300x200?text=No+Preview";
+                  }}
                 />
               </div>
               
@@ -253,7 +411,7 @@ const Templates: React.FC = () => {
                   </span>
                 </div>
                 <div className={classes.expiryInfo}>
-                  <span className={classes.expiryLabel}>Expires:</span>
+                  <span className={classes.expiryLabel}>Created:</span>
                   <span className={classes.expiryDate}>{template.expiresAt}</span>
                 </div>
               </div>

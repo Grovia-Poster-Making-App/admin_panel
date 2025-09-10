@@ -204,7 +204,7 @@
     }
   }
 
-  .dragDropZone {
+  .uploadZone {
     .uploadIcon {
       font-size: 48px;
       margin-bottom: 16px;
@@ -236,10 +236,15 @@
       border: 2px solid rgba(252, 186, 7, 0.2);
     }
 
-    .changeImageButton {
+    .imageActions {
       position: absolute;
       bottom: 12px;
       right: 12px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .changeImageButton {
       background: rgba(30, 30, 46, 0.9);
       color: #{$groviaPrimary};
       border: 1px solid rgba(252, 186, 7, 0.3);
@@ -252,6 +257,22 @@
       &:hover {
         background: rgba(30, 30, 46, 1);
         border-color: rgba(252, 186, 7, 0.5);
+      }
+    }
+
+    .removeImageButton {
+      background: rgba(220, 53, 69, 0.9);
+      color: white;
+      border: 1px solid rgba(220, 53, 69, 0.3);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: $fontSizeBodySmall;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(220, 53, 69, 1);
+        border-color: rgba(220, 53, 69, 0.5);
       }
     }
   }
@@ -390,10 +411,28 @@
     );
     color: #{$groviaDarkBg};
     box-shadow: 0 4px 15px rgba(252, 186, 7, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
-    &:hover {
+    &:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(252, 186, 7, 0.3);
     }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .loadingSpinner {
+      animation: spin 1s linear infinite;
+    }
   }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

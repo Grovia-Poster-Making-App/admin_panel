@@ -1,12 +1,10 @@
 import React from "react";
 import CommonTemplates from "../../components/templates/commonTemplates";
+import { useTemplateCreation } from "../../hooks/useTemplateCreation";
+import Toast from "../../components/UI/Toast";
 
 const Greetings: React.FC = () => {
-  // Get category from URL or default to "Greetings"
-  const getCategoryFromURL = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('category') || 'Greetings';
-  };
+  const { isLoading, error, debugFormData, uploadProgress, uploadStatus, showSuccessToast, handleSuccessToastClose, getCategoryFromURL, handleSave, handleCancel } = useTemplateCreation('story');
 
   const greetingCategories = [
     "Good Morning",
@@ -32,27 +30,36 @@ const Greetings: React.FC = () => {
     "Right Side",
   ];
 
-  const handleSave = (formData: any) => {
-    console.log("Saving greetings templates:", formData);
-    // Add save logic here - API call, validation, etc.
-  };
-
-  const handleCancel = () => {
-    console.log("Cancelled");
-    // Navigate back to templates page
-    window.history.back();
-  };
 
   return (
-    <CommonTemplates
-      category={getCategoryFromURL()}
-      templateType="story"
-      storyCategories={greetingCategories}
-      positionOptions={positionOptions}
-      showTitleBackgroundImage={false}
-      onSave={handleSave}
-      onCancel={handleCancel}
-    />
+    <div>
+      {error && (
+        <div style={{ color: 'red', marginBottom: '10px', padding: '10px', border: '1px solid red', borderRadius: '4px' }}>
+          Error: {error}
+        </div>
+      )}
+      
+      
+      <CommonTemplates
+        category={getCategoryFromURL()}
+        templateType="story"
+        storyCategories={greetingCategories}
+        positionOptions={positionOptions}
+        showTitleBackgroundImage={false}
+        onSave={handleSave}
+        onCancel={handleCancel}
+        isLoading={isLoading}
+      />
+      
+      <Toast
+        isVisible={showSuccessToast}
+        type="success"
+        title="Template Saved Successfully!"
+        message="Your greetings template has been created and saved. You can now use it in your campaigns."
+        duration={4000}
+        onClose={handleSuccessToastClose}
+      />
+    </div>
   );
 };
 

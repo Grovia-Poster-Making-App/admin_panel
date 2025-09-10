@@ -1,8 +1,9 @@
 import { useEffect, useReducer, useRef } from "react";
+import { ApiError } from "../api/types";
 
 interface State<T> {
   data?: T;
-  error?: Error;
+  error?: ApiError;
   status?: string;
 }
 
@@ -11,11 +12,10 @@ type Cache<T> = { [url: string]: T };
 type Action<T> =
   | { type: "loading" }
   | { type: "fetched"; payload: T }
-  | { type: "error"; payload: Error };
+  | { type: "error"; payload: ApiError };
 
 function useFetch<T = unknown>(url?: string, options?: RequestInit): State<T> {
   const cache = useRef<Cache<T>>({});
-
   const cancelRequest = useRef<boolean>(false);
 
   const initialState: State<T> = {
@@ -38,6 +38,7 @@ function useFetch<T = unknown>(url?: string, options?: RequestInit): State<T> {
   };
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
+  
   useEffect(() => {
     if (!url) return;
 
@@ -52,10 +53,20 @@ function useFetch<T = unknown>(url?: string, options?: RequestInit): State<T> {
       try {
         const response = await fetch(url, options);
         if (!response.ok) {
-          throw new Error(response.statusText);
+          const apiError: ApiError = {
+            message: response.statusText,
+            status: response.status,
+            code: `HTTP_${response.status}`,
+          };
+          throw apiError;
         }
         if (response.ok && response.status !== 200) {
-          throw new Error("302 error happen. Maybe you forgat .json");
+          const apiError: ApiError = {
+            message: "302 error happen. Maybe you forgot .json",
+            status: response.status,
+            code: "REDIRECT_ERROR",
+          };
+          throw apiError;
         }
 
         const data = (await response.json()) as T;
@@ -66,7 +77,13 @@ function useFetch<T = unknown>(url?: string, options?: RequestInit): State<T> {
       } catch (error) {
         if (cancelRequest.current) return;
 
-        dispatch({ type: "error", payload: error as Error });
+        const apiError: ApiError = {
+          message: error instanceof Error ? error.message : "An unknown error occurred",
+          status: 500,
+          code: "UNKNOWN_ERROR",
+        };
+        
+        dispatch({ type: "error", payload: apiError });
       }
     };
 

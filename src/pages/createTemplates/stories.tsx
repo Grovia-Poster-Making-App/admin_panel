@@ -1,12 +1,10 @@
 import React from "react";
 import CommonTemplates from "../../components/templates/commonTemplates";
+import { useTemplateCreation } from "../../hooks/useTemplateCreation";
+import Toast from "../../components/UI/Toast";
 
 const Stories: React.FC = () => {
-  // Get category from URL or default to "Stories"
-  const getCategoryFromURL = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('category') || 'Stories';
-  };
+  const { isLoading, error, debugFormData, uploadProgress, uploadStatus, showSuccessToast, handleSuccessToastClose, getCategoryFromURL, handleSave, handleCancel } = useTemplateCreation('story');
 
   const storyCategories = [
     "Birthday",
@@ -28,26 +26,63 @@ const Stories: React.FC = () => {
     "Right Side",
   ];
 
-  const handleSave = (formData: any) => {
-    console.log("Saving stories templates:", formData);
-    // Add save logic here - API call, validation, etc.
-  };
-
-  const handleCancel = () => {
-    console.log("Cancelled");
-    // Navigate back to templates page
-    window.history.back();
-  };
 
   return (
-    <CommonTemplates
-      category={getCategoryFromURL()}
-      templateType="story"
-      storyCategories={storyCategories}
-      positionOptions={positionOptions}
-      onSave={handleSave}
-      onCancel={handleCancel}
-    />
+    <div>
+      {error && (
+        <div style={{ color: 'red', marginBottom: '10px', padding: '10px', border: '1px solid red', borderRadius: '4px' }}>
+          Error: {error}
+        </div>
+      )}
+      
+      {uploadStatus && (
+        <div style={{ 
+          marginBottom: '10px', 
+          padding: '10px', 
+          backgroundColor: '#f0f8ff', 
+          border: '1px solid #007bff', 
+          borderRadius: '4px',
+          textAlign: 'center'
+        }}>
+          <div style={{ marginBottom: '5px' }}>{uploadStatus}</div>
+          {uploadProgress > 0 && (
+            <div style={{ 
+              width: '100%', 
+              backgroundColor: '#e0e0e0', 
+              borderRadius: '10px', 
+              overflow: 'hidden' 
+            }}>
+              <div style={{ 
+                width: `${uploadProgress}%`, 
+                height: '20px', 
+                backgroundColor: '#007bff', 
+                transition: 'width 0.3s ease' 
+              }}></div>
+            </div>
+          )}
+        </div>
+      )}
+      
+      <CommonTemplates
+        category={getCategoryFromURL()}
+        templateType="story"
+        storyCategories={storyCategories}
+        positionOptions={positionOptions}
+        onSave={handleSave}
+        onCancel={handleCancel}
+        showTitleBackgroundImage={true}
+        isLoading={isLoading}
+      />
+      
+      <Toast
+        isVisible={showSuccessToast}
+        type="success"
+        title="Template Saved Successfully!"
+        message="Your story template has been created and saved. You can now use it in your campaigns."
+        duration={4000}
+        onClose={handleSuccessToastClose}
+      />
+    </div>
   );
 };
 

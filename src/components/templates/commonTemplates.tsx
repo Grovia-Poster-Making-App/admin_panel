@@ -21,6 +21,7 @@ interface CommonTemplatesProps {
   onSave?: (formData: CommonTemplatesForm) => void;
   onCancel?: () => void;
   showTitleBackgroundImage?: boolean;
+  isLoading?: boolean;
 }
 
 const CommonTemplates: React.FC<CommonTemplatesProps> = ({
@@ -33,6 +34,7 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
   onSave,
   onCancel,
   showTitleBackgroundImage = false,
+  isLoading = false,
 }) => {
   const [selectedCategory] = useState(category);
   const [formData, setFormData] = useState<CommonTemplatesForm>({
@@ -99,6 +101,22 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
     reader.readAsDataURL(file);
   };
 
+  const handleRemoveHeadImage = () => {
+    setFormData((prev) => ({
+      ...prev,
+      headImage: null,
+      headImagePreview: "",
+    }));
+  };
+
+  const handleRemoveTitleBackgroundImage = () => {
+    setFormData((prev) => ({
+      ...prev,
+      titleBackgroundImage: null,
+      titleBackgroundImagePreview: "",
+    }));
+  };
+
   const handleTemplatesChange = (templates: any[]) => {
     setFormData((prev) => ({
       ...prev,
@@ -154,21 +172,29 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
                   alt="Head preview"
                   className={classes.previewImage}
                 />
-                <button
-                  className={classes.changeImageButton}
-                  onClick={() => headImageInputRef.current?.click()}
-                >
-                  Change Image
-                </button>
+                <div className={classes.imageActions}>
+                  <button
+                    className={classes.changeImageButton}
+                    onClick={() => headImageInputRef.current?.click()}
+                  >
+                    Change Image
+                  </button>
+                  <button
+                    className={classes.removeImageButton}
+                    onClick={handleRemoveHeadImage}
+                  >
+                    Remove Image
+                  </button>
+                </div>
               </div>
             ) : (
               <div
-                className={classes.dragDropZone}
+                className={classes.uploadZone}
                 onClick={() => headImageInputRef.current?.click()}
               >
                 <div className={classes.uploadIcon}>📁</div>
                 <p className={classes.uploadText}>
-                  Click to upload or drag and drop
+                  Click to upload image
                 </p>
                 <p className={classes.uploadHint}>
                   PNG, JPG, GIF up to 10MB
@@ -236,21 +262,29 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
                       alt="Title background preview"
                       className={classes.previewImage}
                     />
-                    <button
-                      className={classes.changeImageButton}
-                      onClick={() => titleBackgroundImageInputRef.current?.click()}
-                    >
-                      Change Image
-                    </button>
+                    <div className={classes.imageActions}>
+                      <button
+                        className={classes.changeImageButton}
+                        onClick={() => titleBackgroundImageInputRef.current?.click()}
+                      >
+                        Change Image
+                      </button>
+                      <button
+                        className={classes.removeImageButton}
+                        onClick={handleRemoveTitleBackgroundImage}
+                      >
+                        Remove Image
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div
-                    className={classes.dragDropZone}
+                    className={classes.uploadZone}
                     onClick={() => titleBackgroundImageInputRef.current?.click()}
                   >
                     <div className={classes.uploadIcon}>📁</div>
                     <p className={classes.uploadText}>
-                      Click to upload or drag and drop
+                      Click to upload image
                     </p>
                     <p className={classes.uploadHint}>
                       PNG, JPG, GIF up to 10MB
@@ -297,8 +331,16 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
         <button
           className={classes.saveButton}
           onClick={handleSaveTemplates}
+          disabled={isLoading}
         >
-          Save Templates
+          {isLoading ? (
+            <>
+              <span className={classes.loadingSpinner}>⏳</span>
+              Saving...
+            </>
+          ) : (
+            'Save Templates'
+          )}
         </button>
       </div>
     </div>
