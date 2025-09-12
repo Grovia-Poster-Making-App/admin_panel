@@ -14,15 +14,17 @@ export interface Template {
 
 export interface ITemplateItem {
   imageUrl: string;
+  title?: string; // Common title field for both story and banner templates
+  subtitle?: string; // Common subtitle field for both story and banner templates
   // story fields
   price?: string;
   category?: string;
   profileImagePosition?: string;
   userDetailPosition?: string;
   expirationDate?: string;
+  eventDate?: string;
   // banner fields
   url?: string;
-  title?: string;
   shortDescription?: string;
   longDescription?: string;
   expiresAt?: string;
@@ -54,11 +56,14 @@ export interface StoryTemplate {
   id: string;
   image: string;
   imagePreview: string;
+  title: string;
+  subtitle: string;
   price: string;
   category: string;
   profileImagePosition: 'left' | 'right';
   userDetailPosition: 'left' | 'right';
   expirationDate: string;
+  eventDate: string;
 }
 
 export interface BannerTemplate {
@@ -67,6 +72,7 @@ export interface BannerTemplate {
   imagePreview: string;
   url: string;
   title: string;
+  subtitle: string;
   shortDescription: string;
   longDescription: string;
   expiresAt: string;
@@ -102,6 +108,8 @@ export type TemplateStatus = 'draft' | 'published' | 'archived' | 'deleted';
 export interface CreateTemplateRequest {
   templateType: TemplateType;
   category: string;
+  title?: string; // Template title field
+  subtitle?: string; // Template subtitle field
   headImageUrl?: string;
   titleBackgroundImageUrl?: string;
   templates: ITemplateItem[];

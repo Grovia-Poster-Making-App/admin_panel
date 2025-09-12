@@ -10,17 +10,21 @@ interface BaseTemplate {
 
 // Story template interface
 interface StoryTemplate extends BaseTemplate {
+  title: string;
+  subtitle: string;
   price: string;
   category: string;
   profileImagePosition: string;
   userDetailPosition: string;
   expirationDate: string;
+  eventDate: string;
 }
 
 // Banner template interface
 interface BannerTemplate extends BaseTemplate {
   url: string;
   title: string;
+  subtitle: string;
   shortDescription: string;
   longDescription: string;
   expiresAt: string;
@@ -95,11 +99,14 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
           id: Date.now().toString(),
           image: null,
           imagePreview: "",
+          title: "",
+          subtitle: "",
           price: "",
           category: "",
           profileImagePosition: "",
           userDetailPosition: "",
           expirationDate: "",
+          eventDate: "",
         } as StoryTemplate
       : {
           id: Date.now().toString(),
@@ -107,6 +114,7 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
           imagePreview: "",
           url: "",
           title: "",
+          subtitle: "",
           shortDescription: "",
           longDescription: "",
           expiresAt: "",
@@ -189,6 +197,32 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
 
       {/* Single Line Input Fields */}
       <div className={classes.singleLineInputs}>
+        <div className={classes.formField}>
+          <label className={classes.fieldLabel}>Title *</label>
+          <input
+            type="text"
+            placeholder="Enter template title"
+            value={template.title}
+            onChange={(e) =>
+              handleTemplateInputChange(template.id, "title", e.target.value)
+            }
+            className={classes.input}
+          />
+        </div>
+
+        <div className={classes.formField}>
+          <label className={classes.fieldLabel}>Subtitle *</label>
+          <input
+            type="text"
+            placeholder="Enter template subtitle"
+            value={template.subtitle}
+            onChange={(e) =>
+              handleTemplateInputChange(template.id, "subtitle", e.target.value)
+            }
+            className={classes.input}
+          />
+        </div>
+
         <div className={classes.formField}>
           <label className={classes.fieldLabel}>Price of Template *</label>
           <input
@@ -280,6 +314,29 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
             </span>
           )}
         </div>
+
+        <div className={classes.formField}>
+          <label className={classes.fieldLabel}>Event Date *</label>
+          <input
+            type="date"
+            value={template.eventDate}
+            onChange={(e) =>
+              handleTemplateInputChange(template.id, "eventDate", e.target.value)
+            }
+            className={classes.input}
+            onFocus={(e) => {
+              const input = e.target as any;
+              if (input.showPicker && typeof input.showPicker === 'function') {
+                input.showPicker();
+              }
+            }}
+          />
+          {template.eventDate && (
+            <span className={classes.dateFormat}>
+              Format: {formatDate(template.eventDate)}
+            </span>
+          )}
+        </div>
       </div>
     </>
   );
@@ -358,6 +415,19 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
             value={template.title}
             onChange={(e) =>
               handleTemplateInputChange(template.id, "title", e.target.value)
+            }
+            className={classes.input}
+          />
+        </div>
+
+        <div className={classes.formField}>
+          <label className={classes.fieldLabel}>Subtitle *</label>
+          <input
+            type="text"
+            placeholder="Enter template subtitle"
+            value={template.subtitle}
+            onChange={(e) =>
+              handleTemplateInputChange(template.id, "subtitle", e.target.value)
             }
             className={classes.input}
           />

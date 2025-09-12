@@ -3,6 +3,8 @@ import classes from "../../pages/createTemplates/Banner.module.scss";
 import BannerTemplates, { StoryTemplate, BannerTemplate } from "./bannerTemplates";
 
 interface CommonTemplatesForm {
+  title: string;
+  subtitle: string;
   headImage: File | null;
   headImagePreview: string;
   showTitleBackgroundImage: boolean;
@@ -38,6 +40,8 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
 }) => {
   const [selectedCategory] = useState(category);
   const [formData, setFormData] = useState<CommonTemplatesForm>({
+    title: "",
+    subtitle: "",
     headImage: null,
     headImagePreview: "",
     showTitleBackgroundImage: showTitleBackgroundImage,
@@ -48,11 +52,14 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
         id: "1",
         image: null,
         imagePreview: "",
+        title: "",
+        subtitle: "",
         price: "",
         category: "",
         profileImagePosition: "",
         userDetailPosition: "",
         expirationDate: "",
+        eventDate: "",
       } as StoryTemplate
     ] : [
       {
@@ -61,6 +68,7 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
         imagePreview: "",
         url: "",
         title: "",
+        subtitle: "",
         shortDescription: "",
         longDescription: "",
         expiresAt: "",
@@ -154,6 +162,45 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
         <p className={classes.subtitle}>
           Design and configure {selectedCategory.toLowerCase()} templates for your campaigns
         </p>
+      </div>
+
+      {/* Template Title Section */}
+      <div className={classes.templateCard}>
+        <div className={classes.cardHeader}>
+          <h3 className={classes.cardTitle}>Template Title</h3>
+        </div>
+        
+        <div className={classes.formField}>
+          <label className={classes.fieldLabel}>Template Title *</label>
+          <input
+            type="text"
+            placeholder="Enter template title"
+            value={formData.title}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                title: e.target.value,
+              }))
+            }
+            className={classes.input}
+          />
+        </div>
+
+        <div className={classes.formField}>
+          <label className={classes.fieldLabel}>Template Subtitle *</label>
+          <input
+            type="text"
+            placeholder="Enter template subtitle"
+            value={formData.subtitle}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                subtitle: e.target.value,
+              }))
+            }
+            className={classes.input}
+          />
+        </div>
       </div>
 
       {/* Head Image Upload Section */}

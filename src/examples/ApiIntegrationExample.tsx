@@ -47,6 +47,8 @@ const ApiIntegrationExample: React.FC = () => {
       const newTemplate: CreateTemplateRequest = {
         templateType: 'story',
         category: 'Stories',
+        title: 'Example Story Template',
+        subtitle: 'An example subtitle for the story template',
         headImageUrl: undefined,
         titleBackgroundImageUrl: undefined,
         templates: [],

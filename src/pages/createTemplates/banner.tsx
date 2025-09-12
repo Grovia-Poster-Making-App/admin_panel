@@ -21,6 +21,7 @@ const Banner: React.FC = () => {
       imagePreview: "",
       url: "",
       title: "",
+      subtitle: "",
       shortDescription: "",
       longDescription: "",
       expiresAt: "",

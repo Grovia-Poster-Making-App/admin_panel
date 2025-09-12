@@ -118,15 +118,31 @@ export const useTemplateCreation = (templateType: TemplateType = 'story') => {
       const templateData: CreateTemplateRequest = {
         templateType: templateType,
         category: getCategoryFromURL(),
+        title: updatedFormData.title || undefined,
+        subtitle: updatedFormData.subtitle || undefined,
         headImageUrl: updatedFormData.headImageUrl || undefined,
         titleBackgroundImageUrl: updatedFormData.titleBackgroundImageUrl || undefined,
         templates: updatedFormData.templates?.map((template: any) => ({
           imageUrl: template.imageUrl || '',
+          title: template.title || '',
+          subtitle: template.subtitle || '',
           price: template.price || '',
           category: template.category || '',
           profileImagePosition: template.profileImagePosition || '',
           userDetailPosition: template.userDetailPosition || '',
           expirationDate: template.expirationDate || undefined,
+          eventDate: template.eventDate || undefined,
+          // Banner template fields
+          url: template.url || '',
+          shortDescription: template.shortDescription || '',
+          longDescription: template.longDescription || '',
+          expiresAt: template.expiresAt || undefined,
+          isVisible: template.isVisible !== undefined ? template.isVisible : true,
+          offerType: template.offerType || '',
+          discount: template.discount || '',
+          termsForOffer: template.termsForOffer || '',
+          buttonText: template.buttonText || 'Pay Now',
+          isBannerClickable: template.isBannerClickable !== undefined ? template.isBannerClickable : true,
         })) || []
       };
 

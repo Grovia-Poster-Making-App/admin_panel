@@ -5,6 +5,7 @@ import classes from "./Templates.module.scss";
 interface Template {
   id: string;
   title: string;
+  subtitle: string;
   category: string;
   downloads: number;
   expiresAt: string;
@@ -38,6 +39,7 @@ const dummyTemplates: Template[] = [
   {
     id: "1",
     title: "Welcome Banner",
+    subtitle: "Welcome your customers with style",
     category: "Welcome",
     downloads: 120,
     expiresAt: "01-10-2025",
@@ -46,6 +48,7 @@ const dummyTemplates: Template[] = [
   {
     id: "2", 
     title: "Motivation Story",
+    subtitle: "Inspire and motivate your audience",
     category: "Motivational Dose",
     downloads: 85,
     expiresAt: "15-09-2025",
@@ -53,7 +56,8 @@ const dummyTemplates: Template[] = [
   },
   {
     id: "3",
-    title: "Special Event Flyer", 
+    title: "Special Event Flyer",
+    subtitle: "Make your events memorable",
     category: "Special Events",
     downloads: 200,
     expiresAt: "20-11-2025",
@@ -62,6 +66,7 @@ const dummyTemplates: Template[] = [
   {
     id: "4",
     title: "Leadership Offer",
+    subtitle: "Exclusive offers for leaders",
     category: "Leader's Offers", 
     downloads: 65,
     expiresAt: "05-12-2025",
@@ -70,6 +75,7 @@ const dummyTemplates: Template[] = [
   {
     id: "5",
     title: "Achievement Badge",
+    subtitle: "Celebrate milestones and success",
     category: "Achievements",
     downloads: 150,
     expiresAt: "10-11-2025", 
@@ -78,6 +84,7 @@ const dummyTemplates: Template[] = [
   {
     id: "6",
     title: "Income Promotion",
+    subtitle: "Boost your earnings potential",
     category: "Income Promotions",
     downloads: 95,
     expiresAt: "25-10-2025",
@@ -138,11 +145,13 @@ const Templates: React.FC = () => {
       
       if (result.success && result.data) {
         console.log('Templates fetched successfully:', result.data);
+        console.log('API Template titles and subtitles:', result.data.map((t: any) => ({ id: t._id, title: t.title, subtitle: t.subtitle, category: t.category })));
         
         // Transform API templates to UI format
         const transformedApiTemplates = result.data.map((apiTemplate: any) => ({
           id: apiTemplate._id,
-          title: apiTemplate.category, // Using category as title
+          title: apiTemplate.title || `${apiTemplate.category} Template`, // Fallback title if not provided
+          subtitle: apiTemplate.subtitle || `${apiTemplate.category} subtitle`, // Fallback subtitle if not provided
           category: apiTemplate.category,
           downloads: Math.floor(Math.random() * 200) + 50, // Random downloads for demo
           expiresAt: new Date(apiTemplate.createdAt).toLocaleDateString('en-GB'),
@@ -150,7 +159,9 @@ const Templates: React.FC = () => {
         }));
 
         // Combine with dummy templates
-        setTemplates([...dummyTemplates, ...transformedApiTemplates]);
+        const allTemplates = [...dummyTemplates, ...transformedApiTemplates];
+        console.log('All templates with titles and subtitles:', allTemplates.map(t => ({ id: t.id, title: t.title, subtitle: t.subtitle, category: t.category })));
+        setTemplates(allTemplates);
         setHasFetched(true);
         setLastFetchTime(now);
       } else {
@@ -404,11 +415,12 @@ const Templates: React.FC = () => {
               
               <div className={classes.templateInfo}>
                 <h3 className={classes.templateTitle}>{template.title}</h3>
+                <p className={classes.templateSubtitle}>{template.subtitle}</p>
                 <div className={classes.templateMeta}>
                   <span className={classes.category}>{template.category}</span>
-                  <span className={classes.downloads}>
+                  {/* <span className={classes.downloads}>
                     📥 {template.downloads} downloads
-                  </span>
+                  </span> */}
                 </div>
                 <div className={classes.expiryInfo}>
                   <span className={classes.expiryLabel}>Created:</span>
@@ -417,13 +429,13 @@ const Templates: React.FC = () => {
               </div>
 
               <div className={classes.templateActions}>
-                <button
+                {/* <button
                   className={`${classes.actionButton} ${classes.viewButton}`}
                   onClick={() => handleView(template.id)}
                   title="View Template"
                 >
                   👁️
-                </button>
+                </button> */}
                 <button
                   className={`${classes.actionButton} ${classes.editButton}`}
                   onClick={() => handleEdit(template.id)}
