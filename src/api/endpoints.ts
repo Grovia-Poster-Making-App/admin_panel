@@ -20,13 +20,13 @@ export const API_ENDPOINTS = {
     UPLOAD_IMAGE: '/templates/upload-image',
   },
   
-  // Customers
+  // Customers/Users
   CUSTOMERS: {
-    BASE: '/customers',
-    CREATE: '/customers',
-    UPDATE: (id: string) => `/customers/${id}`,
-    DELETE: (id: string) => `/customers/${id}`,
-    SEARCH: '/customers/search',
+    BASE: '/api/auth/admin/users',
+    CREATE: '/api/auth/admin/users',
+    UPDATE: (id: string) => `/api/auth/admin/users/${id}`,
+    DELETE: (id: string) => `/api/auth/admin/users/${id}`,
+    SEARCH: '/api/auth/admin/users/search',
   },
   
   // Orders

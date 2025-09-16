@@ -21,6 +21,12 @@ export interface IcustomersTable {
   totalOrders: number;
   totalSpend: string;
   location: string;
+  whatsappNumber?: string;
+  gender?: string;
+  isPhoneVerified?: boolean;
+  isWhatsAppVerified?: boolean;
+  createdAt?: string;
+  rank?: string[];
 }
 
 export interface IProductsTable {

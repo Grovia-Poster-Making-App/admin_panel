@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import classes from "./Templates.module.scss";
+import { templatesService } from "../api/services/templates.service";
 
 // Template interface
 interface Template {
@@ -133,15 +134,7 @@ const Templates: React.FC = () => {
       
       console.log('Fetching templates from API...');
       
-      const response = await fetch('http://localhost:3000/api/admin/templates', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      });
-
-      const result = await response.json();
+      const result = await templatesService.getTemplates();
       
       if (result.success && result.data) {
         console.log('Templates fetched successfully:', result.data);
@@ -165,7 +158,7 @@ const Templates: React.FC = () => {
         setHasFetched(true);
         setLastFetchTime(now);
       } else {
-        throw new Error(result.message || 'Failed to fetch templates');
+        throw new Error('Failed to fetch templates');
       }
     } catch (err) {
       console.error('Error fetching templates:', err);
@@ -207,10 +200,10 @@ const Templates: React.FC = () => {
   }, [templates, searchTerm, selectedCategory]);
 
   // Handle template actions
-  const handleView = (id: string) => {
-    console.log("View template:", id);
-    // Add view logic here
-  };
+  // const handleView = (id: string) => {
+  //   console.log("View template:", id);
+  //   // Add view logic here
+  // };
 
   const handleEdit = (id: string) => {
     console.log("Edit template:", id);
@@ -223,15 +216,7 @@ const Templates: React.FC = () => {
       // Check if it's an API template (has _id format) or dummy template
       if (id.length > 10) { // API templates have longer IDs
         // This is an API template, call the delete API
-        const response = await fetch(`http://localhost:3000/api/admin/templates/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          },
-        });
-
-        const result = await response.json();
+        const result = await templatesService.deleteTemplate(id);
         
         if (result.success) {
           console.log('Template deleted successfully');

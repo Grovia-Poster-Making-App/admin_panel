@@ -23,8 +23,21 @@ export function useCustomers(filters?: CustomerFilters) {
     loading: loadingCustomers,
     error: customersError,
     execute: fetchCustomers,
-  } = useApi<PaginatedResponse<Customer>>(
-    () => customersService.getCustomers(filters),
+  } = useApi<{
+    success: boolean;
+    message: string;
+    data?: {
+      users: any[];
+      pagination: {
+        currentPage: number;
+        totalPages: number;
+        totalUsers: number;
+        hasNextPage: boolean;
+        hasPrevPage: boolean;
+      };
+    };
+  }>(
+    () => customersService.getCustomers(1, 10),
     { immediate: true }
   );
 
@@ -38,19 +51,57 @@ export function useCustomers(filters?: CustomerFilters) {
     loading: updatingCustomer,
     error: updateError,
     execute: updateCustomer,
-  } = useApi<Customer>(customersService.updateCustomer);
+  } = useApi<{
+    success: boolean;
+    message: string;
+    data?: { user: any };
+  }>(customersService.updateCustomer);
 
   const {
     loading: deletingCustomer,
     error: deleteError,
     execute: deleteCustomer,
-  } = useApi<void>(customersService.deleteCustomer);
+  } = useApi<{ success: boolean; message: string }>(customersService.deleteCustomer);
 
   // Update customers when data changes
   useEffect(() => {
-    if (customersData) {
-      setCustomers(customersData.data);
-      setPagination(customersData.pagination);
+    if (customersData && customersData.success && customersData.data) {
+      // Transform API data to Customer format
+      const transformedCustomers: Customer[] = customersData.data.users.map((user: any) => ({
+        id: user._id,
+        name: user.name,
+        email: user.phoneNumber,
+        phone: user.phoneNumber,
+        avatar: '',
+        preferences: {
+          language: 'en',
+          timezone: 'UTC',
+          notifications: {
+            email: true,
+            sms: true,
+            push: true,
+            marketing: false
+          },
+          theme: 'light' as const
+        },
+        stats: {
+          totalOrders: 0,
+          totalSpent: 0,
+          averageOrderValue: 0,
+          loyaltyPoints: 0,
+          referralCount: 0
+        },
+        status: 'active' as const,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+      }));
+      setCustomers(transformedCustomers);
+      setPagination({
+        page: customersData.data.pagination.currentPage,
+        limit: 10,
+        total: customersData.data.pagination.totalUsers,
+        totalPages: customersData.data.pagination.totalPages
+      });
     }
   }, [customersData]);
 
@@ -64,13 +115,44 @@ export function useCustomers(filters?: CustomerFilters) {
     }
   }, [createCustomer]);
 
-  const handleUpdateCustomer = useCallback(async (id: string, customerData: UpdateCustomerRequest) => {
+  const handleUpdateCustomer = useCallback(async (id: string, customerData: any) => {
     try {
-      const updatedCustomer = await updateCustomer(id, customerData);
-      setCustomers(prev => prev.map(customer => 
-        customer.id === id ? updatedCustomer : customer
-      ));
-      return updatedCustomer;
+      const result = await updateCustomer(id, customerData);
+      if (result && result.success && result.data) {
+        const updatedCustomer = result.data.user;
+        setCustomers(prev => prev.map(customer => 
+          customer.id === id ? {
+            id: updatedCustomer._id,
+            name: updatedCustomer.name,
+            email: updatedCustomer.phoneNumber,
+            phone: updatedCustomer.phoneNumber,
+            avatar: '',
+            preferences: {
+              language: 'en',
+              timezone: 'UTC',
+              notifications: {
+                email: true,
+                sms: true,
+                push: true,
+                marketing: false
+              },
+              theme: 'light' as const
+            },
+            stats: {
+              totalOrders: 0,
+              totalSpent: 0,
+              averageOrderValue: 0,
+              loyaltyPoints: 0,
+              referralCount: 0
+            },
+            status: 'active' as const,
+            createdAt: updatedCustomer.createdAt,
+            updatedAt: updatedCustomer.updatedAt
+          } : customer
+        ));
+        return updatedCustomer;
+      }
+      throw new Error('Update failed');
     } catch (error) {
       throw error;
     }
@@ -120,7 +202,7 @@ export function useCustomer(id: string) {
     loading,
     error,
     execute: fetchCustomer,
-  } = useApi<Customer>(() => customersService.getCustomer(id), { immediate: true });
+  } = useApi<{ success: boolean; message: string; data?: { user: any } }>(() => customersService.getCustomer(id), { immediate: true });
 
   return {
     customer,

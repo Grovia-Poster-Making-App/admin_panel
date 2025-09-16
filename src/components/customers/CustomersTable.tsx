@@ -7,9 +7,10 @@ interface CustomersTableProps {
   limit: number;
   headData: string[];
   bodyData: any[];
+  onDelete?: (id: string) => void;
 }
 
-const CustomersTable: React.FC<CustomersTableProps> = ({ limit, headData, bodyData }) => {
+const CustomersTable: React.FC<CustomersTableProps> = ({ limit, headData, bodyData, onDelete }) => {
   const [dataShow, setDataShow] = useState<any[]>([]);
   const [currPage, setCurrPage] = useState(0);
 
@@ -91,7 +92,11 @@ const CustomersTable: React.FC<CustomersTableProps> = ({ limit, headData, bodyDa
             <Link to={`/customers/${item.ID}`} className={classes.actionBtn}>
               <Icon icon="material-symbols:edit" />
             </Link>
-            <button className={`${classes.actionBtn} ${classes.deleteBtn}`} onClick={showModalHandler}>
+            <button 
+              className={`${classes.actionBtn} ${classes.deleteBtn}`} 
+              onClick={() => onDelete && onDelete(item.ID.toString())}
+              title="Delete Customer"
+            >
               <Icon icon="material-symbols:delete" />
             </button>
           </div>

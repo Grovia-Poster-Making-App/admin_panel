@@ -10,21 +10,55 @@ import {
 } from '../types';
 
 export const customersService = {
-  // Get all customers with filters
-  async getCustomers(filters?: CustomerFilters): Promise<PaginatedResponse<Customer>> {
-    const response = await apiClient.get<PaginatedResponse<Customer>>(
+  // Get all customers with pagination
+  async getCustomers(page: number = 1, limit: number = 10): Promise<{
+    success: boolean;
+    message: string;
+    data?: {
+      users: any[];
+      pagination: {
+        currentPage: number;
+        totalPages: number;
+        totalUsers: number;
+        hasNextPage: boolean;
+        hasPrevPage: boolean;
+      };
+    };
+  }> {
+    const response = await apiClient.get<{
+      success: boolean;
+      message: string;
+      data?: {
+        users: any[];
+        pagination: {
+          currentPage: number;
+          totalPages: number;
+          totalUsers: number;
+          hasNextPage: boolean;
+          hasPrevPage: boolean;
+        };
+      };
+    }>(
       API_ENDPOINTS.CUSTOMERS.BASE,
-      { params: filters }
+      { params: { page, limit } }
     );
     return response.data;
   },
 
   // Get customer by ID
-  async getCustomer(id: string): Promise<Customer> {
-    const response = await apiClient.get<ApiResponse<Customer>>(
+  async getCustomer(id: string): Promise<{
+    success: boolean;
+    message: string;
+    data?: { user: any };
+  }> {
+    const response = await apiClient.get<{
+      success: boolean;
+      message: string;
+      data?: { user: any };
+    }>(
       API_ENDPOINTS.CUSTOMERS.UPDATE(id)
     );
-    return response.data.data;
+    return response.data;
   },
 
   // Create new customer
@@ -37,17 +71,40 @@ export const customersService = {
   },
 
   // Update customer
-  async updateCustomer(id: string, customerData: UpdateCustomerRequest): Promise<Customer> {
-    const response = await apiClient.put<ApiResponse<Customer>>(
+  async updateCustomer(id: string, customerData: {
+    name?: string;
+    whatsappNumber?: string;
+    gender?: 'male' | 'female' | 'other';
+    images?: string[] | any[];
+    rank?: string[];
+    isPhoneVerified?: boolean;
+    isWhatsAppVerified?: boolean;
+  }): Promise<{
+    success: boolean;
+    message: string;
+    data?: { user: any };
+  }> {
+    const response = await apiClient.put<{
+      success: boolean;
+      message: string;
+      data?: { user: any };
+    }>(
       API_ENDPOINTS.CUSTOMERS.UPDATE(id),
       customerData
     );
-    return response.data.data;
+    return response.data;
   },
 
   // Delete customer
-  async deleteCustomer(id: string): Promise<void> {
-    await apiClient.delete(API_ENDPOINTS.CUSTOMERS.DELETE(id));
+  async deleteCustomer(id: string): Promise<{
+    success: boolean;
+    message: string;
+  }> {
+    const response = await apiClient.delete<{
+      success: boolean;
+      message: string;
+    }>(API_ENDPOINTS.CUSTOMERS.DELETE(id));
+    return response.data;
   },
 
   // Search customers
