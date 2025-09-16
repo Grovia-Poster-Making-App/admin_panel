@@ -339,6 +339,14 @@
     color: #{$groviaDarkText};
     font-weight: 500;
   }
+
+  .toggleDescription {
+    font-size: $fontSizeBodySmall;
+    color: #{$groviaDarkTextSecondary};
+    margin-top: 8px;
+    font-style: italic;
+    line-height: 1.4;
+  }
 }
 
 .addMoreSection {

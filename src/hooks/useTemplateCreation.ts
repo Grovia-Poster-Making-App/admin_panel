@@ -121,6 +121,7 @@ export const useTemplateCreation = (templateType: TemplateType = 'story') => {
         title: updatedFormData.title || undefined,
         subtitle: updatedFormData.subtitle || undefined,
         headImageUrl: updatedFormData.headImageUrl || undefined,
+        isPinned: updatedFormData.headImagePinned !== undefined ? updatedFormData.headImagePinned : false,
         titleBackgroundImageUrl: updatedFormData.titleBackgroundImageUrl || undefined,
         templates: updatedFormData.templates?.map((template: any) => ({
           imageUrl: template.imageUrl || '',

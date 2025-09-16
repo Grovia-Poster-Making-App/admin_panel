@@ -5,7 +5,10 @@ export interface Template {
   _id: string;
   templateType: TemplateType;
   category: string;
+  title?: string;
+  subtitle?: string;
   headImageUrl?: string;
+  isPinned?: boolean;
   titleBackgroundImageUrl?: string;
   templates: ITemplateItem[];
   createdAt: string;
@@ -111,6 +114,7 @@ export interface CreateTemplateRequest {
   title?: string; // Template title field
   subtitle?: string; // Template subtitle field
   headImageUrl?: string;
+  isPinned?: boolean;
   titleBackgroundImageUrl?: string;
   templates: ITemplateItem[];
 }

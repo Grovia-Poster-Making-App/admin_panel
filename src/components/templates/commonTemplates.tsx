@@ -7,6 +7,7 @@ interface CommonTemplatesForm {
   subtitle: string;
   headImage: File | null;
   headImagePreview: string;
+  headImagePinned: boolean;
   showTitleBackgroundImage: boolean;
   titleBackgroundImage: File | null;
   titleBackgroundImagePreview: string;
@@ -44,6 +45,7 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
     subtitle: "",
     headImage: null,
     headImagePreview: "",
+    headImagePinned: false,
     showTitleBackgroundImage: showTitleBackgroundImage,
     titleBackgroundImage: null,
     titleBackgroundImagePreview: "",
@@ -260,6 +262,34 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
               }}
               className={classes.hiddenInput}
             />
+          </div>
+        </div>
+
+        {/* Pin Head Image Toggle */}
+        <div className={classes.toggleInputs}>
+          <div className={classes.formField}>
+            <label className={classes.fieldLabel}>Pin Head Image</label>
+            <div className={classes.toggleContainer}>
+              <label className={classes.toggleSwitch}>
+                <input
+                  type="checkbox"
+                  checked={formData.headImagePinned}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      headImagePinned: e.target.checked,
+                    }))
+                  }
+                />
+                <span className={classes.toggleSlider}></span>
+              </label>
+              <span className={classes.toggleLabel}>
+                {formData.headImagePinned ? "Pinned" : "Not Pinned"}
+              </span>
+            </div>
+            <p className={classes.toggleDescription}>
+              When pinned, this head image will remain fixed at the top of the story
+            </p>
           </div>
         </div>
       </div>
