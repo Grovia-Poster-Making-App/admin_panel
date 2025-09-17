@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CreateTemplateRequest, TemplateType } from '../api/types';
 import { uploadMultipleImages, extractImageFiles, replaceFilesWithUrls } from '../utils/imageUpload.utils';
+import { templatesService } from '../api/services/templates.service';
 
 export const useTemplateCreation = (templateType: TemplateType = 'story') => {
   const [isLoading, setIsLoading] = useState(false);
@@ -123,6 +124,8 @@ export const useTemplateCreation = (templateType: TemplateType = 'story') => {
         headImageUrl: updatedFormData.headImageUrl || undefined,
         isPinned: updatedFormData.headImagePinned !== undefined ? updatedFormData.headImagePinned : false,
         titleBackgroundImageUrl: updatedFormData.titleBackgroundImageUrl || undefined,
+        templateTypeDropdown: updatedFormData.templateTypeDropdown || undefined,
+        templateTitleSection: updatedFormData.templateTitleSection || undefined,
         templates: updatedFormData.templates?.map((template: any) => ({
           imageUrl: template.imageUrl || '',
           title: template.title || '',
@@ -152,17 +155,8 @@ export const useTemplateCreation = (templateType: TemplateType = 'story') => {
       }
       setUploadStatus('Creating template...');
 
-      // Step 6: Call API to save template
-      const response = await fetch('http://localhost:3000/api/admin/templates', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-        },
-        body: JSON.stringify(templateData),
-      });
-
-      const result = await response.json();
+      // Step 6: Call API to save template using templatesService
+      const result = await templatesService.createTemplate(templateData);
       
       if (result.success) {
         if (process.env.NODE_ENV === 'development') {

@@ -47,6 +47,7 @@ const SpecialEvents: React.FC = () => {
         onSave={handleSave}
         onCancel={handleCancel}
         showTitleBackgroundImage={true}
+        showSpecialEventFields={true}
         isLoading={isLoading}
       />
       

@@ -11,6 +11,8 @@ interface CommonTemplatesForm {
   showTitleBackgroundImage: boolean;
   titleBackgroundImage: File | null;
   titleBackgroundImagePreview: string;
+  templateTypeDropdown?: 'Single Page Edit' | 'Frames Edit' | 'Meetings Edit';
+  templateTitleSection?: string;
   templates: StoryTemplate[] | BannerTemplate[];
 }
 
@@ -24,6 +26,7 @@ interface CommonTemplatesProps {
   onSave?: (formData: CommonTemplatesForm) => void;
   onCancel?: () => void;
   showTitleBackgroundImage?: boolean;
+  showSpecialEventFields?: boolean;
   isLoading?: boolean;
 }
 
@@ -37,6 +40,7 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
   onSave,
   onCancel,
   showTitleBackgroundImage = false,
+  showSpecialEventFields = false,
   isLoading = false,
 }) => {
   const [selectedCategory] = useState(category);
@@ -49,6 +53,8 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
     showTitleBackgroundImage: showTitleBackgroundImage,
     titleBackgroundImage: null,
     titleBackgroundImagePreview: "",
+    templateTypeDropdown: 'Single Page Edit',
+    templateTitleSection: "",
     templates: templateType === 'story' ? [
       {
         id: "1",
@@ -383,6 +389,49 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Special Event Fields - Only show if showSpecialEventFields prop is true */}
+      {showSpecialEventFields && (
+        <div className={classes.templateCard}>
+          <div className={classes.cardHeader}>
+            <h3 className={classes.cardTitle}>Template Configuration</h3>
+          </div>
+          
+          <div className={classes.formField}>
+            <label className={classes.fieldLabel}>Template Type *</label>
+            <select
+              value={formData.templateTypeDropdown || 'Single Page Edit'}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  templateTypeDropdown: e.target.value as 'Single Page Edit' | 'Frames Edit' | 'Meetings Edit',
+                }))
+              }
+              className={classes.input}
+            >
+              <option value="Single Page Edit">Single Page Edit</option>
+              <option value="Frames Edit">Frames Edit</option>
+              <option value="Meetings Edit">Meetings Edit</option>
+            </select>
+          </div>
+
+          <div className={classes.formField}>
+            <label className={classes.fieldLabel}>Template Title Section *</label>
+            <input
+              type="text"
+              placeholder="Enter template title section"
+              value={formData.templateTitleSection || ""}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  templateTitleSection: e.target.value,
+                }))
+              }
+              className={classes.input}
+            />
+          </div>
         </div>
       )}
 

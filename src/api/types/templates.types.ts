@@ -10,6 +10,8 @@ export interface Template {
   headImageUrl?: string;
   isPinned?: boolean;
   titleBackgroundImageUrl?: string;
+  templateTypeDropdown?: 'Single Page Edit' | 'Frames Edit' | 'Meetings Edit';
+  templateTitleSection?: string;
   templates: ITemplateItem[];
   createdAt: string;
   updatedAt: string;
@@ -116,6 +118,8 @@ export interface CreateTemplateRequest {
   headImageUrl?: string;
   isPinned?: boolean;
   titleBackgroundImageUrl?: string;
+  templateTypeDropdown?: 'Single Page Edit' | 'Frames Edit' | 'Meetings Edit';
+  templateTitleSection?: string;
   templates: ITemplateItem[];
 }
 
