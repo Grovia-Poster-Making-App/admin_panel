@@ -185,10 +185,8 @@ const Templates: React.FC = () => {
 
   // Fetch templates on component mount (only once)
   useEffect(() => {
-    if (!hasFetched && !isFetching) {
-      fetchTemplates();
-    }
-  }, [hasFetched, isFetching]); // eslint-disable-line react-hooks/exhaustive-deps
+    fetchTemplates();
+  }, []); // Empty dependency array to run only once on mount
 
   // Filter templates based on search and category
   const filteredTemplates = useMemo(() => {

@@ -95,10 +95,10 @@ src/
 Create a `.env` file in your project root:
 
 ```env
-REACT_APP_API_BASE_URL=http://localhost:3001/api
+REACT_APP_API_BASE_URL=https://api.grovia.pro/api
 REACT_APP_NAME=Grovia Admin Panel
 REACT_APP_VERSION=1.0.0
-REACT_APP_ENABLE_DEVTOOLS=true
+REACT_APP_ENABLE_DEVTOOLS=false
 REACT_APP_LOG_LEVEL=info
 ```
 
@@ -107,7 +107,7 @@ REACT_APP_LOG_LEVEL=info
 The API client is configured in `src/config/api.config.ts`:
 
 ```typescript
-export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api';
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://api.grovia.pro/api';
 export const API_TIMEOUT = 10000; // 10 seconds
 export const API_RETRY_ATTEMPTS = 3;
 ```
@@ -345,8 +345,11 @@ test('should render templates page', () => {
     "build": "react-scripts build",
     "build:api": "react-scripts build && cp -r src/api build/",
     "start": "react-scripts start",
+    "start:dev": "REACT_APP_API_BASE_URL=http://localhost:3001/api react-scripts start",
+    "start:prod": "REACT_APP_API_BASE_URL=https://api.grovia.pro/api react-scripts start",
     "test": "react-scripts test"
-  }
+  },
+  "proxy": "https://api.grovia.pro"
 }
 ```
 
@@ -425,6 +428,61 @@ import { useTemplates } from '../hooks/useTemplates';
 const { templates, loading, error } = useTemplates();
 ```
 
+## 🚨 CORS Troubleshooting
+
+### Common CORS Issues
+
+#### 1. **Development CORS Error**
+```
+Access to XMLHttpRequest at 'https://api.grovia.pro/api/admin/templates' from origin 'http://localhost:3000' has been blocked by CORS policy
+```
+
+**Solutions:**
+- Use the proxy configuration in `package.json`
+- Run with development script: `npm run start:dev`
+- Set up local backend server on `http://localhost:3001`
+
+#### 2. **Rate Limiting Error**
+```
+GET https://api.grovia.pro/api/admin/templates net::ERR_FAILED 429 (Too Many Requests)
+```
+
+**Solutions:**
+- Implement request throttling
+- Add retry logic with exponential backoff
+- Use local development server to avoid rate limits
+
+#### 3. **Environment Configuration**
+
+**Development:**
+```bash
+# Use local backend
+npm run start:dev
+
+# Or set environment variable
+REACT_APP_API_BASE_URL=http://localhost:3001/api npm start
+```
+
+**Production:**
+```bash
+# Use production backend
+npm run start:prod
+
+# Or set environment variable
+REACT_APP_API_BASE_URL=https://api.grovia.pro/api npm start
+```
+
+### Proxy Configuration
+
+The `package.json` includes a proxy configuration:
+```json
+{
+  "proxy": "https://api.grovia.pro"
+}
+```
+
+This allows your development server to proxy API requests, avoiding CORS issues.
+
 ## 📞 Support
 
 For questions or issues with the API integration:
@@ -433,6 +491,7 @@ For questions or issues with the API integration:
 2. Review the TypeScript types in `src/api/types/`
 3. Consult the service functions in `src/api/services/`
 4. Check the utility functions in `src/utils/helpers/`
+5. Review CORS troubleshooting section above
 
 ## 🎯 Next Steps
 

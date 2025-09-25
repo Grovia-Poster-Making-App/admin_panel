@@ -30,11 +30,14 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
+    "start:dev": "PORT=3001 REACT_APP_API_BASE_URL=http://localhost:3002 react-scripts start",
+    "start:prod": "PORT=3001 REACT_APP_API_BASE_URL=https://api.grovia.pro react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "https://api.grovia.pro",
   "eslintConfig": {
     "extends": [
       "react-app",
