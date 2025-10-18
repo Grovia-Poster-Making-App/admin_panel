@@ -46,6 +46,7 @@ const Greetings: React.FC = () => {
         storyCategories={greetingCategories}
         positionOptions={positionOptions}
         showTitleBackgroundImage={false}
+        showLayeredToggle={true}
         onSave={handleSave}
         onCancel={handleCancel}
         isLoading={isLoading}

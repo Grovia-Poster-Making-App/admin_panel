@@ -23,10 +23,31 @@ export const templatesService = {
 
   // Get template by ID
   async getTemplate(id: string): Promise<{ success: boolean; data: Template }> {
-    const response = await apiClient.get<{ success: boolean; data: Template }>(
-      API_ENDPOINTS.TEMPLATES.UPDATE(id)
-    );
-    return response.data;
+    try {
+      // First try the direct GET endpoint
+      const response = await apiClient.get<{ success: boolean; data: Template }>(
+        API_ENDPOINTS.TEMPLATES.GET(id)
+      );
+      return response.data;
+    } catch (error: any) {
+      // If direct GET fails, try to get it from the templates list
+      try {
+        const templatesResponse = await apiClient.get<{ success: boolean; data: Template[] }>(
+          API_ENDPOINTS.TEMPLATES.BASE
+        );
+        
+        if (templatesResponse.data.success && templatesResponse.data.data) {
+          const template = templatesResponse.data.data.find(t => t._id === id);
+          if (template) {
+            return { success: true, data: template };
+          }
+        }
+        
+        throw new Error('Template not found in templates list');
+      } catch (listError: any) {
+        throw new Error(`Template with ID ${id} not found`);
+      }
+    }
   },
 
   // Create new template

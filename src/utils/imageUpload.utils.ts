@@ -164,6 +164,7 @@ export const extractImageFiles = (formData: any): File[] => {
   if (formData.templates && Array.isArray(formData.templates)) {
     console.log('Processing templates:', formData.templates.length);
     formData.templates.forEach((template: any, index: number) => {
+      // Extract first image
       const templateImageFile = template.imageFile || 
                                template.image || 
                                template.imagePreview ||
@@ -173,6 +174,15 @@ export const extractImageFiles = (formData: any): File[] => {
         files.push(templateImageFile);
       } else {
         console.log(`Template ${index} has no image file:`, template);
+      }
+
+      // Extract second image for layered templates
+      const secondImageFile = template.secondImage || 
+                             template.secondImagePreview ||
+                             template.secondImageFile;
+      if (secondImageFile && secondImageFile instanceof File) {
+        console.log(`Found template ${index} second image file:`, secondImageFile);
+        files.push(secondImageFile);
       }
     });
   }
@@ -224,21 +234,32 @@ export const replaceFilesWithUrls = (formData: any, uploadResults: { [key: strin
   // Replace template images
   if (updatedData.templates && Array.isArray(updatedData.templates)) {
     updatedData.templates = updatedData.templates.map((template: any, index: number) => {
+      const updatedTemplate = { ...template };
+      
+      // Replace first image
       const templateImageKey = `template_${index}_imageUrl`;
       if (uploadResults[templateImageKey]) {
-        const updatedTemplate = {
-          ...template,
-          imageUrl: uploadResults[templateImageKey],
-        };
+        updatedTemplate.imageUrl = uploadResults[templateImageKey];
         // Clean up file properties
         delete updatedTemplate.imageFile;
         delete updatedTemplate.image;
         delete updatedTemplate.imagePreview;
         delete updatedTemplate.file;
         console.log(`Replaced template ${index} image with URL:`, uploadResults[templateImageKey]);
-        return updatedTemplate;
       }
-      return template;
+
+      // Replace second image for layered templates
+      const secondImageKey = `template_${index}_secondImageUrl`;
+      if (uploadResults[secondImageKey]) {
+        updatedTemplate.secondImageUrl = uploadResults[secondImageKey];
+        // Clean up file properties
+        delete updatedTemplate.secondImage;
+        delete updatedTemplate.secondImagePreview;
+        delete updatedTemplate.secondImageFile;
+        console.log(`Replaced template ${index} second image with URL:`, uploadResults[secondImageKey]);
+      }
+
+      return updatedTemplate;
     });
   }
 

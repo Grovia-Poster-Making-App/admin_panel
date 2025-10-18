@@ -125,7 +125,7 @@ const ApiIntegrationExample: React.FC = () => {
                 <h3>{template.category}</h3>
                 <p>Type: {template.templateType}</p>
                 <p>Templates Count: {template.templates.length}</p>
-                <button onClick={() => updateTemplate(template._id, { id: template._id, category: 'Updated Category' })}>
+                <button onClick={() => updateTemplate(template._id, { category: 'Updated Category' })}>
                   Update
                 </button>
                 <button onClick={() => deleteTemplate(template._id)}>

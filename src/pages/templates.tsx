@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import classes from "./Templates.module.scss";
 import { templatesService } from "../api/services/templates.service";
 
@@ -35,68 +35,11 @@ const categories = [
   "Capping"
 ];
 
-// Dummy data
-const dummyTemplates: Template[] = [
-  {
-    id: "1",
-    title: "Welcome Banner",
-    subtitle: "Welcome your customers with style",
-    category: "Welcome",
-    downloads: 120,
-    expiresAt: "01-10-2025",
-    preview: "https://previews.123rf.com/images/maxborovkov/maxborovkov1711/maxborovkov171100062/89114649-white-welcome-banner-with-colorful-paper-serpentine-vector-illustration.jpg"
-  },
-  {
-    id: "2", 
-    title: "Motivation Story",
-    subtitle: "Inspire and motivate your audience",
-    category: "Motivational Dose",
-    downloads: 85,
-    expiresAt: "15-09-2025",
-    preview: "https://img.freepik.com/premium-psd/best-motivation-success_1286238-15019.jpg"
-  },
-  {
-    id: "3",
-    title: "Special Event Flyer",
-    subtitle: "Make your events memorable",
-    category: "Special Events",
-    downloads: 200,
-    expiresAt: "20-11-2025",
-    preview: "https://media.licdn.com/dms/image/v2/C4E1BAQGZsxrbRvG49A/company-background_10000/company-background_10000/0/1584613572227/australasian_special_events_cover?e=2147483647&v=beta&t=rp-49jD4BXDkuE9VPqkrUREFnQcc6n0JRQQC-7ni3-c"
-  },
-  {
-    id: "4",
-    title: "Leadership Offer",
-    subtitle: "Exclusive offers for leaders",
-    category: "Leader's Offers", 
-    downloads: 65,
-    expiresAt: "05-12-2025",
-    preview: "https://media.licdn.com/dms/image/v2/D4D12AQF9bz_lQkqTig/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1707828106708?e=2147483647&v=beta&t=eFMLcpdmuHUXDwitkUhyVRmCn3b1d07W_YM9AGkc4X0"
-  },
-  {
-    id: "5",
-    title: "Achievement Badge",
-    subtitle: "Celebrate milestones and success",
-    category: "Achievements",
-    downloads: 150,
-    expiresAt: "10-11-2025", 
-    preview: "https://images.squarespace-cdn.com/content/v1/656bf2e501bf733c04fad6f5/1b0e841b-7fee-4306-b758-4ee303cb4e2d/Personal+Achievements.jpg"
-  },
-  {
-    id: "6",
-    title: "Income Promotion",
-    subtitle: "Boost your earnings potential",
-    category: "Income Promotions",
-    downloads: 95,
-    expiresAt: "25-10-2025",
-    preview: "https://static.vecteezy.com/system/resources/previews/010/307/866/non_2x/bonus-word-with-flying-gold-dollar-coins-and-gift-box-on-confetti-background-win-prize-celebration-promo-banner-loyalty-program-or-casino-winning-concept-earn-and-money-income-illustration-vector.jpg"
-  }
-];
 
 const Templates: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [templates, setTemplates] = useState<Template[]>(dummyTemplates);
+  const [templates, setTemplates] = useState<Template[]>([]);
   const [showCreateDropdown, setShowCreateDropdown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -105,7 +48,7 @@ const Templates: React.FC = () => {
   const [lastFetchTime, setLastFetchTime] = useState(0);
 
   // Fetch templates from API
-  const fetchTemplates = async (forceRefresh = false) => {
+  const fetchTemplates = useCallback(async (forceRefresh = false) => {
     const now = Date.now();
     const MIN_FETCH_INTERVAL = 5000; // 5 seconds minimum between fetches
 
@@ -151,10 +94,9 @@ const Templates: React.FC = () => {
           preview: apiTemplate.headImageUrl || apiTemplate.templates?.[0]?.imageUrl || "https://via.placeholder.com/300x200?text=No+Preview"
         }));
 
-        // Combine with dummy templates
-        const allTemplates = [...dummyTemplates, ...transformedApiTemplates];
-        console.log('All templates with titles and subtitles:', allTemplates.map(t => ({ id: t.id, title: t.title, subtitle: t.subtitle, category: t.category })));
-        setTemplates(allTemplates);
+        // Set only API templates
+        console.log('API templates with titles and subtitles:', transformedApiTemplates.map(t => ({ id: t.id, title: t.title, subtitle: t.subtitle, category: t.category })));
+        setTemplates(transformedApiTemplates);
         setHasFetched(true);
         setLastFetchTime(now);
       } else {
@@ -176,17 +118,17 @@ const Templates: React.FC = () => {
         setError('Failed to fetch templates');
       }
       
-      // Keep dummy templates even if API fails
+      // Keep empty array if API fails
     } finally {
       setIsLoading(false);
       setIsFetching(false);
     }
-  };
+  }, [isFetching, hasFetched, lastFetchTime]);
 
   // Fetch templates on component mount (only once)
   useEffect(() => {
     fetchTemplates();
-  }, []); // Empty dependency array to run only once on mount
+  }, [fetchTemplates]);
 
   // Filter templates based on search and category
   const filteredTemplates = useMemo(() => {
@@ -205,32 +147,63 @@ const Templates: React.FC = () => {
 
   const handleEdit = (id: string) => {
     console.log("Edit template:", id);
-    // Add edit logic here
+    
+    // Find the template to get its category
+    const template = templates.find(t => t.id === id);
+    if (!template) {
+      console.error('Template not found for editing');
+      return;
+    }
+
+    // Route to the appropriate edit page based on category
+    const categoryRoutes: { [key: string]: string } = {
+      "Banner 1": `/edit-template/banner?id=${encodeURIComponent(id)}`,
+      "Banner 2": `/edit-template/banner?id=${encodeURIComponent(id)}`,
+      "Stories": `/edit-template/stories?id=${encodeURIComponent(id)}`,
+      "Special Events": `/edit-template/special-events?id=${encodeURIComponent(id)}`,
+      "Buttons": `/edit-template/buttons?id=${encodeURIComponent(id)}`,
+      "Motivational Dose": `/edit-template/motivational-dose?id=${encodeURIComponent(id)}`,
+      "Rank Promotions": `/edit-template/rank-promotions?id=${encodeURIComponent(id)}`,
+      "Leader's Offers": `/edit-template/leaders-offers?id=${encodeURIComponent(id)}`,
+      "Achievements": `/edit-template/achievements?id=${encodeURIComponent(id)}`,
+      "Income Promotions": `/edit-template/income-promotions?id=${encodeURIComponent(id)}`,
+      "Bonanza Promotions": `/edit-template/bonanza-promotions?id=${encodeURIComponent(id)}`,
+      "Greetings": `/edit-template/greetings?id=${encodeURIComponent(id)}`,
+      "Thank You Post": `/edit-template/thank-you-post?id=${encodeURIComponent(id)}`,
+      "Schedule": `/edit-template/schedule?id=${encodeURIComponent(id)}`,
+      "Meetings (With Photo)": `/edit-template/meetings-with-photo?id=${encodeURIComponent(id)}`,
+      "Meetings (Without Photo)": `/edit-template/meetings-without-photo?id=${encodeURIComponent(id)}`,
+      "Custom Meetings": `/edit-template/custom-meetings?id=${encodeURIComponent(id)}`,
+      "Capping": `/edit-template/capping?id=${encodeURIComponent(id)}`
+    };
+
+    // Navigate to the appropriate edit template page
+    const route = categoryRoutes[template.category];
+    if (route) {
+      window.location.href = route;
+    } else {
+      console.warn("No edit route defined for category:", template.category);
+      // Fallback to a generic edit template page
+      window.location.href = `/edit-template/generic?id=${encodeURIComponent(id)}&category=${encodeURIComponent(template.category)}`;
+    }
   };
 
   const handleDelete = async (id: string) => {
     console.log("Delete template:", id);
     try {
-      // Check if it's an API template (has _id format) or dummy template
-      if (id.length > 10) { // API templates have longer IDs
-        // This is an API template, call the delete API
-        const result = await templatesService.deleteTemplate(id);
-        
-        if (result.success) {
-          console.log('Template deleted successfully');
-          // Refresh templates after deletion (force refresh)
-          fetchTemplates(true);
-        } else {
-          throw new Error(result.message || 'Failed to delete template');
-        }
+      // All templates are now API templates, call the delete API
+      const result = await templatesService.deleteTemplate(id);
+      
+      if (result.success) {
+        console.log('Template deleted successfully');
+        // Refresh templates after deletion (force refresh)
+        fetchTemplates(true);
       } else {
-        // This is a dummy template, just remove from local state
-        setTemplates(prev => prev.filter(template => template.id !== id));
+        throw new Error(result.message || 'Failed to delete template');
       }
     } catch (err) {
       console.error('Error deleting template:', err);
-      // Still remove from local state even if API call fails
-      setTemplates(prev => prev.filter(template => template.id !== id));
+      // Show error but don't remove from UI until API confirms deletion
     }
   };
 

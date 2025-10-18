@@ -124,7 +124,6 @@ export interface CreateTemplateRequest {
 }
 
 export interface UpdateTemplateRequest extends Partial<CreateTemplateRequest> {
-  id: string;
 }
 
 export interface TemplateFilters extends FilterOptions {

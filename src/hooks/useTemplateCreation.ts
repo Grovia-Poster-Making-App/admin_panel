@@ -94,6 +94,7 @@ export const useTemplateCreation = (templateType: TemplateType = 'story') => {
       // Map template images - try multiple possible property names
       if (formData.templates && Array.isArray(formData.templates)) {
         formData.templates.forEach((template: any, index: number) => {
+          // Map first image
           const templateImageFile = template.imageFile || 
                                    template.image || 
                                    template.imagePreview ||
@@ -102,6 +103,18 @@ export const useTemplateCreation = (templateType: TemplateType = 'story') => {
             urlMapping[`template_${index}_imageUrl`] = uploadResults.urls[urlIndex];
             if (process.env.NODE_ENV === 'development') {
               console.log(`Mapped template ${index} image URL:`, uploadResults.urls[urlIndex]);
+            }
+            urlIndex++;
+          }
+
+          // Map second image for layered templates
+          const secondImageFile = template.secondImage || 
+                                 template.secondImagePreview ||
+                                 template.secondImageFile;
+          if (secondImageFile && uploadResults.urls[urlIndex]) {
+            urlMapping[`template_${index}_secondImageUrl`] = uploadResults.urls[urlIndex];
+            if (process.env.NODE_ENV === 'development') {
+              console.log(`Mapped template ${index} second image URL:`, uploadResults.urls[urlIndex]);
             }
             urlIndex++;
           }
@@ -130,6 +143,9 @@ export const useTemplateCreation = (templateType: TemplateType = 'story') => {
           imageUrl: template.imageUrl || '',
           title: template.title || '',
           subtitle: template.subtitle || '',
+          filterTitle: template.filterTitle || '',           // ← ADD THIS
+          isLayered: template.isLayered !== undefined ? template.isLayered : false,  // ← ADD THIS
+          secondImageUrl: template.secondImageUrl || '',     // ← ADD THIS
           price: template.price || '',
           category: template.category || '',
           profileImagePosition: template.profileImagePosition || '',

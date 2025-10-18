@@ -8,6 +8,8 @@ import "./scss/App.scss";
 
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Templates = React.lazy(() => import("./pages/templates"));
+
+// Create Template Pages
 const Banner = React.lazy(() => import("./pages/createTemplates/banner"));
 const Stories = React.lazy(() => import("./pages/createTemplates/stories"));
 const SpecialEvents = React.lazy(() => import("./pages/createTemplates/specialEvents"));
@@ -25,6 +27,27 @@ const MeetingsWithPhoto = React.lazy(() => import("./pages/createTemplates/meeti
 const MeetingsWithoutPhoto = React.lazy(() => import("./pages/createTemplates/meetingsWithoutPhoto"));
 const CustomMeetings = React.lazy(() => import("./pages/createTemplates/customMeetings"));
 const Cappings = React.lazy(() => import("./pages/createTemplates/cappings"));
+
+// Edit Template Pages
+const EditBanner = React.lazy(() => import("./pages/editTemplates/EditBanner"));
+const EditStories = React.lazy(() => import("./pages/editTemplates/EditStories"));
+const EditSpecialEvents = React.lazy(() => import("./pages/editTemplates/EditSpecialEvents"));
+const EditButtons = React.lazy(() => import("./pages/editTemplates/EditButtons"));
+const EditMotivationDose = React.lazy(() => import("./pages/editTemplates/EditMotivationDose"));
+const EditRankPromotions = React.lazy(() => import("./pages/editTemplates/EditRankPromotions"));
+const EditLeadersOffers = React.lazy(() => import("./pages/editTemplates/EditLeadersOffers"));
+const EditAchievements = React.lazy(() => import("./pages/editTemplates/EditAchievements"));
+const EditIncomePromotions = React.lazy(() => import("./pages/editTemplates/EditIncomePromotions"));
+const EditBonanzaPromotions = React.lazy(() => import("./pages/editTemplates/EditBonanzaPromotions"));
+const EditGreetings = React.lazy(() => import("./pages/editTemplates/EditGreetings"));
+const EditThankYouPost = React.lazy(() => import("./pages/editTemplates/EditThankYouPost"));
+const EditSchedule = React.lazy(() => import("./pages/editTemplates/EditSchedule"));
+const EditMeetingsWithPhoto = React.lazy(() => import("./pages/editTemplates/EditMeetingsWithPhoto"));
+const EditMeetingsWithoutPhoto = React.lazy(() => import("./pages/editTemplates/EditMeetingsWithoutPhoto"));
+const EditCustomMeetings = React.lazy(() => import("./pages/editTemplates/EditCustomMeetings"));
+const EditCappings = React.lazy(() => import("./pages/editTemplates/EditCappings"));
+const EditGenericTemplate = React.lazy(() => import("./pages/editTemplates/EditGenericTemplate"));
+
 const Orders = React.lazy(() => import("./pages/orders/Orders"));
 const Customers = React.lazy(() => import("./pages/Customers"));
 const CustomerEdit = React.lazy(() => import("./pages/CustomerEdit"));
@@ -50,6 +73,8 @@ function App() {
             <Route path="/" element={<MainLayout />}>
               <Route index element={<Dashboard />} />
               <Route path="/templates" element={<Templates />} />
+              
+              {/* Create Template Routes */}
               <Route path="/create-template/banner" element={<Banner />} />
               <Route path="/create-template/stories" element={<Stories />} />
               <Route path="/create-template/special-events" element={<SpecialEvents />} />
@@ -67,6 +92,28 @@ function App() {
               <Route path="/create-template/meetings-without-photo" element={<MeetingsWithoutPhoto />} />
               <Route path="/create-template/custom-meetings" element={<CustomMeetings />} />
               <Route path="/create-template/capping" element={<Cappings />} />
+              
+              {/* Edit Template Routes */}
+              <Route path="/edit-template/banner" element={<EditBanner />} />
+              <Route path="/edit-template/stories" element={<EditStories />} />
+              <Route path="/edit-template/special-events" element={<EditSpecialEvents />} />
+              <Route path="/edit-template/buttons" element={<EditButtons />} />
+              <Route path="/edit-template/motivational-dose" element={<EditMotivationDose />} />
+              <Route path="/edit-template/rank-promotions" element={<EditRankPromotions />} />
+              <Route path="/edit-template/leaders-offers" element={<EditLeadersOffers />} />
+              <Route path="/edit-template/achievements" element={<EditAchievements />} />
+              <Route path="/edit-template/income-promotions" element={<EditIncomePromotions />} />
+              <Route path="/edit-template/bonanza-promotions" element={<EditBonanzaPromotions />} />
+              <Route path="/edit-template/greetings" element={<EditGreetings />} />
+              <Route path="/edit-template/thank-you-post" element={<EditThankYouPost />} />
+              <Route path="/edit-template/schedule" element={<EditSchedule />} />
+              <Route path="/edit-template/meetings-with-photo" element={<EditMeetingsWithPhoto />} />
+              <Route path="/edit-template/meetings-without-photo" element={<EditMeetingsWithoutPhoto />} />
+              <Route path="/edit-template/custom-meetings" element={<EditCustomMeetings />} />
+              <Route path="/edit-template/capping" element={<EditCappings />} />
+              <Route path="/edit-template/generic" element={<EditGenericTemplate />} />
+              
+              {/* Other Routes */}
               <Route path="/orders" element={<Orders />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/customers/:customerId" element={<CustomerEdit />} />

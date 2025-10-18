@@ -46,6 +46,7 @@ const IncomePromotions: React.FC = () => {
         storyCategories={incomeCategories}
         positionOptions={positionOptions}
         showTitleBackgroundImage={false}
+        showLayeredToggle={true}
         onSave={handleSave}
         onCancel={handleCancel}
         isLoading={isLoading}

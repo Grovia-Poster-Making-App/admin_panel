@@ -1,5 +1,7 @@
 import React from "react";
 import CommonTemplates from "../../components/templates/commonTemplates";
+import { useTemplateCreation } from "../../hooks/useTemplateCreation";
+import SuccessPopup from "../../components/UI/SuccessPopup";
 
 const Achievements: React.FC = () => {
   // Get category from URL or default to "Achievements"
@@ -32,27 +34,73 @@ const Achievements: React.FC = () => {
     "Right Side",
   ];
 
-  const handleSave = (formData: any) => {
-    console.log("Saving achievements templates:", formData);
-    // Add save logic here - API call, validation, etc.
-  };
-
-  const handleCancel = () => {
-    console.log("Cancelled");
-    // Navigate back to templates page
-    window.history.back();
-  };
+  // Use the template creation hook
+  const {
+    isLoading,
+    error,
+    uploadProgress,
+    uploadStatus,
+    showSuccessToast,
+    handleSuccessToastClose,
+    handleSave,
+    handleCancel,
+  } = useTemplateCreation('story');
 
   return (
-    <CommonTemplates
-      category={getCategoryFromURL()}
-      templateType="story"
-      storyCategories={achievementCategories}
-      positionOptions={positionOptions}
-      showTitleBackgroundImage={false}
-      onSave={handleSave}
-      onCancel={handleCancel}
-    />
+    <>
+      <CommonTemplates
+        category={getCategoryFromURL()}
+        templateType="story"
+        storyCategories={achievementCategories}
+        positionOptions={positionOptions}
+        showTitleBackgroundImage={false}
+        onSave={handleSave}
+        onCancel={handleCancel}
+        isLoading={isLoading}
+      />
+      
+      {/* Show error message if there's an error */}
+      {error && (
+        <div style={{ 
+          position: 'fixed', 
+          top: '20px', 
+          right: '20px', 
+          background: '#ff4444', 
+          color: 'white', 
+          padding: '10px 20px', 
+          borderRadius: '5px',
+          zIndex: 9999 
+        }}>
+          Error: {error}
+        </div>
+      )}
+      
+      {/* Show upload progress if uploading */}
+      {isLoading && uploadStatus && (
+        <div style={{ 
+          position: 'fixed', 
+          top: '20px', 
+          left: '20px', 
+          background: '#007bff', 
+          color: 'white', 
+          padding: '10px 20px', 
+          borderRadius: '5px',
+          zIndex: 9999 
+        }}>
+          {uploadStatus} {uploadProgress > 0 && `(${uploadProgress}%)`}
+        </div>
+      )}
+      
+      {/* Success popup */}
+      {showSuccessToast && (
+        <SuccessPopup
+          isVisible={showSuccessToast}
+          title="Success!"
+          message="Achievement template saved successfully!"
+          onClose={handleSuccessToastClose}
+        />
+      )}
+    </>
   );
 };
 

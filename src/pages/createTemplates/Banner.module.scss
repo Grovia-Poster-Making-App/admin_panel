@@ -183,6 +183,14 @@
     margin-top: 4px;
     font-weight: 500;
   }
+
+  .fieldDescription {
+    font-size: $fontSizeBodySmall;
+    color: #{$groviaDarkTextSecondary};
+    margin-top: 6px;
+    font-style: italic;
+    line-height: 1.4;
+  }
 }
 
 .uploadSection {

@@ -18,6 +18,10 @@ interface StoryTemplate extends BaseTemplate {
   userDetailPosition: string;
   expirationDate: string;
   eventDate: string;
+  filterTitle: string;
+  isLayered?: boolean;
+  secondImage?: File | null;
+  secondImagePreview?: string;
 }
 
 // Banner template interface
@@ -34,6 +38,7 @@ interface BannerTemplate extends BaseTemplate {
   termsForOffer: string;
   buttonText: string;
   isBannerClickable: boolean;
+  filterTitle: string;
 }
 
 // Union type for all template types
@@ -48,6 +53,7 @@ interface BannerTemplatesProps {
   offerTypes?: string[];
   buttonTextOptions?: string[];
   positionOptions?: string[];
+  showLayeredToggle?: boolean;
 }
 
 const BannerTemplates: React.FC<BannerTemplatesProps> = ({
@@ -57,22 +63,33 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
   storyCategories = [],
   offerTypes = [],
   buttonTextOptions = [],
-  positionOptions = []
+  positionOptions = [],
+  showLayeredToggle = false
 }) => {
   const templateImageInputRef = useRef<HTMLInputElement>(null);
+  const secondImageInputRef = useRef<HTMLInputElement>(null);
 
-  const handleTemplateImageUpload = (file: File, templateId: string) => {
+  const handleTemplateImageUpload = (file: File, templateId: string, isSecondImage = false) => {
     const reader = new FileReader();
     reader.onload = (e) => {
-      const updatedTemplates = templates.map((template) =>
-        template.id === templateId
-          ? {
+      const updatedTemplates = templates.map((template) => {
+        if (template.id === templateId) {
+          if (isSecondImage && 'secondImage' in template) {
+            return {
+              ...template,
+              secondImage: file,
+              secondImagePreview: e.target?.result as string,
+            };
+          } else {
+            return {
               ...template,
               image: file,
               imagePreview: e.target?.result as string,
-            }
-          : template
-      );
+            };
+          }
+        }
+        return template;
+      });
       onTemplatesChange(updatedTemplates);
     };
     reader.readAsDataURL(file);
@@ -107,6 +124,10 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
           userDetailPosition: "",
           expirationDate: "",
           eventDate: "",
+          filterTitle: "",
+          isLayered: false,
+          secondImage: null,
+          secondImagePreview: "",
         } as StoryTemplate
       : {
           id: Date.now().toString(),
@@ -124,6 +145,7 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
           termsForOffer: "",
           buttonText: "Pay Now",
           isBannerClickable: true,
+          filterTitle: "",
         } as BannerTemplate;
     
     onTemplatesChange([...templates, newTemplate]);
@@ -146,51 +168,179 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
 
   const renderStoryTemplateFields = (template: StoryTemplate, index: number) => (
     <>
-      {/* Template Image Upload Section */}
-      <div className={classes.uploadSection}>
-        <label className={classes.fieldLabel}>Template Image *</label>
-        <div className={classes.uploadZone}>
-          {template.imagePreview ? (
-            <div className={classes.imagePreview}>
-              <img
-                src={template.imagePreview}
-                alt="Template preview"
-                className={classes.previewImage}
-              />
-              <button
-                className={classes.changeImageButton}
-                onClick={() => templateImageInputRef.current?.click()}
-              >
-                Change Image
-              </button>
+      {/* Is Layered Toggle - Only show if showLayeredToggle prop is true */}
+      {showLayeredToggle && (
+        <div className={classes.toggleInputs}>
+          <div className={classes.formField}>
+            <label className={classes.fieldLabel}>Is Layered</label>
+            <div className={classes.toggleContainer}>
+              <label className={classes.toggleSwitch}>
+                <input
+                  type="checkbox"
+                  checked={template.isLayered || false}
+                  onChange={(e) =>
+                    handleTemplateInputChange(template.id, "isLayered", e.target.checked)
+                  }
+                />
+                <span className={classes.toggleSlider}></span>
+              </label>
+              <span className={classes.toggleLabel}>
+                {template.isLayered ? "Layered (Dual Images)" : "Single Image"}
+              </span>
             </div>
-          ) : (
-            <div
-              className={classes.dragDropZone}
-              onClick={() => templateImageInputRef.current?.click()}
-            >
-              <div className={classes.uploadIcon}>📁</div>
-              <p className={classes.uploadText}>
-                Click to upload or drag and drop
-              </p>
-              <p className={classes.uploadHint}>
-                PNG, JPG, GIF up to 10MB
-              </p>
-            </div>
-          )}
-          <input
-            ref={templateImageInputRef}
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                handleTemplateImageUpload(file, template.id);
-              }
-            }}
-            className={classes.hiddenInput}
-          />
+          </div>
         </div>
+      )}
+
+      {/* Image Upload Section */}
+      <div className={classes.uploadSection}>
+        {showLayeredToggle && template.isLayered ? (
+          <>
+            {/* Layered Mode - Two images in a row */}
+            <div className={classes.singleLineInputs}>
+              {/* Layer 1 Image */}
+              <div className={classes.formField}>
+                <label className={classes.fieldLabel}>Layer 1 Image *</label>
+                <div className={classes.uploadZone}>
+                  {template.imagePreview ? (
+                    <div className={classes.imagePreview}>
+                      <img
+                        src={template.imagePreview}
+                        alt="Layer 1 preview"
+                        className={classes.previewImage}
+                      />
+                      <button
+                        className={classes.changeImageButton}
+                        onClick={() => templateImageInputRef.current?.click()}
+                      >
+                        Change Image
+                      </button>
+                    </div>
+                  ) : (
+                    <div
+                      className={classes.dragDropZone}
+                      onClick={() => templateImageInputRef.current?.click()}
+                    >
+                      <div className={classes.uploadIcon}>📁</div>
+                      <p className={classes.uploadText}>
+                        Click to upload or drag and drop
+                      </p>
+                      <p className={classes.uploadHint}>
+                        PNG, JPG, GIF up to 10MB
+                      </p>
+                    </div>
+                  )}
+                  <input
+                    ref={templateImageInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleTemplateImageUpload(file, template.id);
+                      }
+                    }}
+                    className={classes.hiddenInput}
+                  />
+                </div>
+              </div>
+
+              {/* Layer 2 Image */}
+              <div className={classes.formField}>
+                <label className={classes.fieldLabel}>Layer 2 Image *</label>
+                <div className={classes.uploadZone}>
+                  {template.secondImagePreview ? (
+                    <div className={classes.imagePreview}>
+                      <img
+                        src={template.secondImagePreview}
+                        alt="Layer 2 preview"
+                        className={classes.previewImage}
+                      />
+                      <button
+                        className={classes.changeImageButton}
+                        onClick={() => secondImageInputRef.current?.click()}
+                      >
+                        Change Image
+                      </button>
+                    </div>
+                  ) : (
+                    <div
+                      className={classes.dragDropZone}
+                      onClick={() => secondImageInputRef.current?.click()}
+                    >
+                      <div className={classes.uploadIcon}>📁</div>
+                      <p className={classes.uploadText}>
+                        Click to upload or drag and drop
+                      </p>
+                      <p className={classes.uploadHint}>
+                        PNG, JPG, GIF up to 10MB
+                      </p>
+                    </div>
+                  )}
+                  <input
+                    ref={secondImageInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleTemplateImageUpload(file, template.id, true);
+                      }
+                    }}
+                    className={classes.hiddenInput}
+                  />
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Single Image Mode */}
+            <label className={classes.fieldLabel}>Template Image *</label>
+            <div className={classes.uploadZone}>
+              {template.imagePreview ? (
+                <div className={classes.imagePreview}>
+                  <img
+                    src={template.imagePreview}
+                    alt="Template preview"
+                    className={classes.previewImage}
+                  />
+                  <button
+                    className={classes.changeImageButton}
+                    onClick={() => templateImageInputRef.current?.click()}
+                  >
+                    Change Image
+                  </button>
+                </div>
+              ) : (
+                <div
+                  className={classes.dragDropZone}
+                  onClick={() => templateImageInputRef.current?.click()}
+                >
+                  <div className={classes.uploadIcon}>📁</div>
+                  <p className={classes.uploadText}>
+                    Click to upload or drag and drop
+                  </p>
+                  <p className={classes.uploadHint}>
+                    PNG, JPG, GIF up to 10MB
+                  </p>
+                </div>
+              )}
+              <input
+                ref={templateImageInputRef}
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handleTemplateImageUpload(file, template.id);
+                  }
+                }}
+                className={classes.hiddenInput}
+              />
+            </div>
+          </>
+        )}
       </div>
 
 
@@ -221,6 +371,20 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
             }
             className={classes.input}
           />
+        </div>
+
+        <div className={classes.formField}>
+          <label className={classes.fieldLabel}>Filter Title *</label>
+          <input
+            type="text"
+            placeholder="Enter filter title for categorization"
+            value={template.filterTitle}
+            onChange={(e) =>
+              handleTemplateInputChange(template.id, "filterTitle", e.target.value)
+            }
+            className={classes.input}
+          />
+         
         </div>
 
         <div className={classes.formField}>
@@ -431,6 +595,20 @@ const BannerTemplates: React.FC<BannerTemplatesProps> = ({
             }
             className={classes.input}
           />
+        </div>
+
+        <div className={classes.formField}>
+          <label className={classes.fieldLabel}>Filter Title *</label>
+          <input
+            type="text"
+            placeholder="Enter filter title for categorization"
+            value={template.filterTitle}
+            onChange={(e) =>
+              handleTemplateInputChange(template.id, "filterTitle", e.target.value)
+            }
+            className={classes.input}
+          />
+          
         </div>
 
         <div className={classes.formField}>

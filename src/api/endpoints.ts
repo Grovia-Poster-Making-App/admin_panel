@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
   TEMPLATES: {
     BASE: '/api/admin/templates',
     CREATE: '/api/admin/templates',
+    GET: (id: string) => `/api/admin/templates/${id}`,
     UPDATE: (id: string) => `/api/admin/templates/${id}`,
     DELETE: (id: string) => `/api/admin/templates/${id}`,
     BY_CATEGORY: (category: string) => `/api/admin/templates?category=${category}`,

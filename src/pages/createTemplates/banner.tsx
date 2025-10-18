@@ -31,6 +31,7 @@ const Banner: React.FC = () => {
       termsForOffer: "",
       buttonText: "Pay Now",
       isBannerClickable: true,
+      filterTitle: "",
     },
   ]);
 

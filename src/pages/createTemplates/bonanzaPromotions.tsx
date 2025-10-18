@@ -46,6 +46,7 @@ const BonanzaPromotions: React.FC = () => {
         storyCategories={bonanzaCategories}
         positionOptions={positionOptions}
         showTitleBackgroundImage={false}
+        showLayeredToggle={true}
         onSave={handleSave}
         onCancel={handleCancel}
         isLoading={isLoading}

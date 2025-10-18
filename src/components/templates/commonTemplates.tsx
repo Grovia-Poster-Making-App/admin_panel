@@ -27,7 +27,10 @@ interface CommonTemplatesProps {
   onCancel?: () => void;
   showTitleBackgroundImage?: boolean;
   showSpecialEventFields?: boolean;
+  showLayeredToggle?: boolean;
   isLoading?: boolean;
+  isEditMode?: boolean;
+  initialData?: any;
 }
 
 const CommonTemplates: React.FC<CommonTemplatesProps> = ({
@@ -41,53 +44,121 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
   onCancel,
   showTitleBackgroundImage = false,
   showSpecialEventFields = false,
+  showLayeredToggle = false,
   isLoading = false,
+  isEditMode = false,
+  initialData = null,
 }) => {
   const [selectedCategory] = useState(category);
-  const [formData, setFormData] = useState<CommonTemplatesForm>({
-    title: "",
-    subtitle: "",
-    headImage: null,
-    headImagePreview: "",
-    headImagePinned: false,
-    showTitleBackgroundImage: showTitleBackgroundImage,
-    titleBackgroundImage: null,
-    titleBackgroundImagePreview: "",
-    templateTypeDropdown: 'Single Page Edit',
-    templateTitleSection: "",
-    templates: templateType === 'story' ? [
-      {
-        id: "1",
-        image: null,
-        imagePreview: "",
+  const [formData, setFormData] = useState<CommonTemplatesForm>(() => {
+    if (isEditMode && initialData) {
+      console.log('🔍 Initial data received in CommonTemplates:', initialData);
+      console.log('🔍 Templates array:', initialData.templates);
+      if (initialData.templates && initialData.templates.length > 0) {
+        console.log('🔍 First template data:', initialData.templates[0]);
+      }
+      
+      // Transform API data to form data format
+      return {
+        title: initialData.title || "",
+        subtitle: initialData.subtitle || "",
+        headImage: null,
+        headImagePreview: initialData.headImageUrl || "",
+        headImagePinned: initialData.isPinned || false,
+        showTitleBackgroundImage: showTitleBackgroundImage,
+        titleBackgroundImage: null,
+        titleBackgroundImagePreview: initialData.titleBackgroundImageUrl || "",
+        templateTypeDropdown: initialData.templateTypeDropdown || 'Single Page Edit',
+        templateTitleSection: initialData.templateTitleSection || "",
+        templates: initialData.templates?.map((template: any, index: number) => {
+          console.log(`🔍 Mapping template ${index}:`, template);
+          console.log(`🔍 Template ${index} expirationDate:`, template.expirationDate);
+          console.log(`🔍 Template ${index} eventDate:`, template.eventDate);
+          console.log(`🔍 Template ${index} category:`, template.category);
+          
+          return {
+            id: (index + 1).toString(),
+            image: null,
+            imagePreview: template.imageUrl || "",
+            title: template.title || "",
+            subtitle: template.subtitle || "",
+            price: template.price || "",
+            category: template.category || "",
+            profileImagePosition: template.profileImagePosition || "",
+            userDetailPosition: template.userDetailPosition || "",
+            expirationDate: template.expirationDate || "",
+            eventDate: template.eventDate || "",
+            filterTitle: template.filterTitle || "",
+            isLayered: template.isLayered || false,
+            secondImage: null,
+            secondImagePreview: template.secondImageUrl || "",
+            // Banner fields
+            url: template.url || "",
+            shortDescription: template.shortDescription || "",
+            longDescription: template.longDescription || "",
+            expiresAt: template.expiresAt || "",
+            isVisible: template.isVisible !== undefined ? template.isVisible : true,
+            offerType: template.offerType || "",
+            discount: template.discount || "",
+            termsForOffer: template.termsForOffer || "",
+            buttonText: template.buttonText || "Pay Now",
+            isBannerClickable: template.isBannerClickable !== undefined ? template.isBannerClickable : true,
+          };
+        }) || [],
+      };
+    } else {
+      // Default initialization for create mode
+      return {
         title: "",
         subtitle: "",
-        price: "",
-        category: "",
-        profileImagePosition: "",
-        userDetailPosition: "",
-        expirationDate: "",
-        eventDate: "",
-      } as StoryTemplate
-    ] : [
-      {
-        id: "1",
-        image: null,
-        imagePreview: "",
-        url: "",
-        title: "",
-        subtitle: "",
-        shortDescription: "",
-        longDescription: "",
-        expiresAt: "",
-        isVisible: true,
-        offerType: "",
-        discount: "",
-        termsForOffer: "",
-        buttonText: "Pay Now",
-        isBannerClickable: true,
-      } as BannerTemplate
-    ],
+        headImage: null,
+        headImagePreview: "",
+        headImagePinned: false,
+        showTitleBackgroundImage: showTitleBackgroundImage,
+        titleBackgroundImage: null,
+        titleBackgroundImagePreview: "",
+        templateTypeDropdown: 'Single Page Edit',
+        templateTitleSection: "",
+        templates: templateType === 'story' ? [
+          {
+            id: "1",
+            image: null,
+            imagePreview: "",
+            title: "",
+            subtitle: "",
+            price: "",
+            category: "",
+            profileImagePosition: "",
+            userDetailPosition: "",
+            expirationDate: "",
+            eventDate: "",
+            filterTitle: "",
+            isLayered: false,
+            secondImage: null,
+            secondImagePreview: "",
+          } as StoryTemplate
+        ] : [
+          {
+            id: "1",
+            image: null,
+            imagePreview: "",
+            url: "",
+            title: "",
+            subtitle: "",
+            shortDescription: "",
+            longDescription: "",
+            expiresAt: "",
+            isVisible: true,
+            offerType: "",
+            discount: "",
+            termsForOffer: "",
+            buttonText: "Pay Now",
+            isBannerClickable: true,
+            filterTitle: "",
+          } as BannerTemplate
+        ],
+      };
+    }
   });
 
   const headImageInputRef = useRef<HTMLInputElement>(null);
@@ -166,9 +237,14 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
             ← Back to Templates
           </button>
         </div>
-        <h1 className={classes.title}>Create Template ({selectedCategory})</h1>
+        <h1 className={classes.title}>
+          {isEditMode ? `Edit Template (${selectedCategory})` : `Create Template (${selectedCategory})`}
+        </h1>
         <p className={classes.subtitle}>
-          Design and configure {selectedCategory.toLowerCase()} templates for your campaigns
+          {isEditMode 
+            ? `Edit and update ${selectedCategory.toLowerCase()} template for your campaigns`
+            : `Design and configure ${selectedCategory.toLowerCase()} templates for your campaigns`
+          }
         </p>
       </div>
 
@@ -392,6 +468,7 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
         </div>
       )}
 
+
       {/* Special Event Fields - Only show if showSpecialEventFields prop is true */}
       {showSpecialEventFields && (
         <div className={classes.templateCard}>
@@ -444,6 +521,7 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
         offerTypes={offerTypes}
         buttonTextOptions={buttonTextOptions}
         positionOptions={positionOptions}
+        showLayeredToggle={showLayeredToggle}
       />
 
       {/* Action Buttons */}
@@ -462,10 +540,10 @@ const CommonTemplates: React.FC<CommonTemplatesProps> = ({
           {isLoading ? (
             <>
               <span className={classes.loadingSpinner}>⏳</span>
-              Saving...
+              {isEditMode ? 'Updating...' : 'Saving...'}
             </>
           ) : (
-            'Save Templates'
+            isEditMode ? 'Update Template' : 'Save Templates'
           )}
         </button>
       </div>

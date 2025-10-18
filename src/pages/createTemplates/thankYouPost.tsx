@@ -1,12 +1,18 @@
 import React from "react";
 import CommonTemplates from "../../components/templates/commonTemplates";
+import { useTemplateCreation } from "../../hooks/useTemplateCreation";
+import Toast from "../../components/UI/Toast";
 
 const ThankYouPost: React.FC = () => {
-  // Get category from URL or default to "Thank You Post"
-  const getCategoryFromURL = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('category') || 'Thank You Post';
-  };
+  const { 
+    isLoading, 
+    error, 
+    showSuccessToast, 
+    handleSuccessToastClose, 
+    getCategoryFromURL, 
+    handleSave, 
+    handleCancel 
+  } = useTemplateCreation('story');
 
   const thankYouCategories = [
     "Customer Appreciation",
@@ -32,27 +38,35 @@ const ThankYouPost: React.FC = () => {
     "Right Side",
   ];
 
-  const handleSave = (formData: any) => {
-    console.log("Saving thank you post templates:", formData);
-    // Add save logic here - API call, validation, etc.
-  };
-
-  const handleCancel = () => {
-    console.log("Cancelled");
-    // Navigate back to templates page
-    window.history.back();
-  };
-
   return (
-    <CommonTemplates
-      category={getCategoryFromURL()}
-      templateType="story"
-      storyCategories={thankYouCategories}
-      positionOptions={positionOptions}
-      showTitleBackgroundImage={false}
-      onSave={handleSave}
-      onCancel={handleCancel}
-    />
+    <div>
+      {error && (
+        <div style={{ color: 'red', marginBottom: '10px', padding: '10px', border: '1px solid red', borderRadius: '4px' }}>
+          Error: {error}
+        </div>
+      )}
+      
+      <CommonTemplates
+        category={getCategoryFromURL()}
+        templateType="story"
+        storyCategories={thankYouCategories}
+        positionOptions={positionOptions}
+        showTitleBackgroundImage={false}
+        showLayeredToggle={true}
+        onSave={handleSave}
+        onCancel={handleCancel}
+        isLoading={isLoading}
+      />
+      
+      <Toast
+        isVisible={showSuccessToast}
+        type="success"
+        title="Template Saved Successfully!"
+        message="Your thank you post template has been created and saved. You can now use it in your campaigns."
+        duration={4000}
+        onClose={handleSuccessToastClose}
+      />
+    </div>
   );
 };
 
