@@ -147,7 +147,7 @@ export const useTemplateCreation = (templateType: TemplateType = 'story') => {
           isLayered: template.isLayered !== undefined ? template.isLayered : false,  // ← ADD THIS
           secondImageUrl: template.secondImageUrl || '',     // ← ADD THIS
           price: template.price || '',
-          category: template.category || '',
+          category: getCategoryFromURL(), // Use main category instead of template.category
           profileImagePosition: template.profileImagePosition || '',
           userDetailPosition: template.userDetailPosition || '',
           expirationDate: template.expirationDate || undefined,

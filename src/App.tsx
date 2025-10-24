@@ -26,6 +26,8 @@ const Schedule = React.lazy(() => import("./pages/createTemplates/schedule"));
 const MeetingsWithPhoto = React.lazy(() => import("./pages/createTemplates/meetingsWithPhoto"));
 const MeetingsWithoutPhoto = React.lazy(() => import("./pages/createTemplates/meetingsWithoutPhoto"));
 const CustomMeetings = React.lazy(() => import("./pages/createTemplates/customMeetings"));
+const CreateCustomMeetingsWithPic = React.lazy(() => import("./pages/createTemplates/CreateCustomMeetingsWithPic"));
+const CreateCustomMeetingsWithoutPic = React.lazy(() => import("./pages/createTemplates/CreateCustomMeetingsWithoutPic"));
 const Cappings = React.lazy(() => import("./pages/createTemplates/cappings"));
 
 // Edit Template Pages
@@ -45,6 +47,8 @@ const EditSchedule = React.lazy(() => import("./pages/editTemplates/EditSchedule
 const EditMeetingsWithPhoto = React.lazy(() => import("./pages/editTemplates/EditMeetingsWithPhoto"));
 const EditMeetingsWithoutPhoto = React.lazy(() => import("./pages/editTemplates/EditMeetingsWithoutPhoto"));
 const EditCustomMeetings = React.lazy(() => import("./pages/editTemplates/EditCustomMeetings"));
+const EditCustomMeetingsWithPic = React.lazy(() => import("./pages/editTemplates/EditCustomMeetingsWithPic"));
+const EditCustomMeetingsWithoutPic = React.lazy(() => import("./pages/editTemplates/EditCustomMeetingsWithoutPic"));
 const EditCappings = React.lazy(() => import("./pages/editTemplates/EditCappings"));
 const EditGenericTemplate = React.lazy(() => import("./pages/editTemplates/EditGenericTemplate"));
 
@@ -91,6 +95,8 @@ function App() {
               <Route path="/create-template/meetings-with-photo" element={<MeetingsWithPhoto />} />
               <Route path="/create-template/meetings-without-photo" element={<MeetingsWithoutPhoto />} />
               <Route path="/create-template/custom-meetings" element={<CustomMeetings />} />
+              <Route path="/create-template/custom-meetings-with-pic" element={<CreateCustomMeetingsWithPic />} />
+              <Route path="/create-template/custom-meetings-without-pic" element={<CreateCustomMeetingsWithoutPic />} />
               <Route path="/create-template/capping" element={<Cappings />} />
               
               {/* Edit Template Routes */}
@@ -110,6 +116,8 @@ function App() {
               <Route path="/edit-template/meetings-with-photo" element={<EditMeetingsWithPhoto />} />
               <Route path="/edit-template/meetings-without-photo" element={<EditMeetingsWithoutPhoto />} />
               <Route path="/edit-template/custom-meetings" element={<EditCustomMeetings />} />
+              <Route path="/edit-template/custom-meetings-with-pic" element={<EditCustomMeetingsWithPic />} />
+              <Route path="/edit-template/custom-meetings-without-pic" element={<EditCustomMeetingsWithoutPic />} />
               <Route path="/edit-template/capping" element={<EditCappings />} />
               <Route path="/edit-template/generic" element={<EditGenericTemplate />} />
               

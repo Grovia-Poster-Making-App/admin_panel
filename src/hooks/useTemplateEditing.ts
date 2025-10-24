@@ -95,7 +95,8 @@ export const useTemplateEditing = (templateId: string) => {
             if (template.subtitle) templateItem.subtitle = template.subtitle;
             if (template.filterTitle) templateItem.filterTitle = template.filterTitle;
             if (template.price) templateItem.price = template.price;
-            if (template.category) templateItem.category = template.category;
+            // Use the main template category instead of individual template category
+            templateItem.category = template.category;
             if (template.profileImagePosition) templateItem.profileImagePosition = template.profileImagePosition;
             if (template.userDetailPosition) templateItem.userDetailPosition = template.userDetailPosition;
             if (template.expirationDate) templateItem.expirationDate = template.expirationDate;

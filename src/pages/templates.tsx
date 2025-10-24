@@ -31,7 +31,8 @@ const categories = [
   "Schedule",
   "Meetings (With Photo)",
   "Meetings (Without Photo)",
-  "Custom Meetings",
+  "Custom Meetings (With Pic)",
+  "Custom Meetings (Without Pic)",
   "Capping"
 ];
 
@@ -173,7 +174,8 @@ const Templates: React.FC = () => {
       "Schedule": `/edit-template/schedule?id=${encodeURIComponent(id)}`,
       "Meetings (With Photo)": `/edit-template/meetings-with-photo?id=${encodeURIComponent(id)}`,
       "Meetings (Without Photo)": `/edit-template/meetings-without-photo?id=${encodeURIComponent(id)}`,
-      "Custom Meetings": `/edit-template/custom-meetings?id=${encodeURIComponent(id)}`,
+      "Custom Meetings (With Pic)": `/edit-template/custom-meetings-with-pic?id=${encodeURIComponent(id)}`,
+      "Custom Meetings (Without Pic)": `/edit-template/custom-meetings-without-pic?id=${encodeURIComponent(id)}`,
       "Capping": `/edit-template/capping?id=${encodeURIComponent(id)}`
     };
 
@@ -229,7 +231,8 @@ const Templates: React.FC = () => {
         "Schedule": `/create-template/schedule?category=${encodeURIComponent(category)}`,
         "Meetings (With Photo)": `/create-template/meetings-with-photo?category=${encodeURIComponent(category)}`,
         "Meetings (Without Photo)": `/create-template/meetings-without-photo?category=${encodeURIComponent(category)}`,
-        "Custom Meetings": `/create-template/custom-meetings?category=${encodeURIComponent(category)}`,
+        "Custom Meetings (With Pic)": `/create-template/custom-meetings-with-pic?category=${encodeURIComponent(category)}`,
+        "Custom Meetings (Without Pic)": `/create-template/custom-meetings-without-pic?category=${encodeURIComponent(category)}`,
         "Capping": `/create-template/capping?category=${encodeURIComponent(category)}`
       };
 
