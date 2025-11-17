@@ -80,9 +80,8 @@ export const useTemplateEditing = (templateId: string) => {
             
             // Handle image URL - could be in imageUrl, image, or imagePreview field
             const imageUrl = template.imageUrl || template.image || template.imagePreview;
-            if (imageUrl && typeof imageUrl === 'string') {
-              templateItem.imageUrl = imageUrl;
-            }
+            // Always set imageUrl to avoid validation errors (use the value from form if exists, otherwise keep existing)
+            templateItem.imageUrl = (imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '') ? imageUrl : template.imageUrl || '';
             
             // Handle second image URL for layered templates
             const secondImageUrl = template.secondImageUrl || template.secondImage || template.secondImagePreview;
@@ -232,9 +231,8 @@ export const useTemplateEditing = (templateId: string) => {
           
           // Handle image URL - could be in imageUrl, image, or imagePreview field
           const imageUrl = template.imageUrl || template.image || template.imagePreview;
-          if (imageUrl && typeof imageUrl === 'string') {
-            templateItem.imageUrl = imageUrl;
-          }
+          // Always set imageUrl to avoid validation errors (use the value from form if exists, otherwise keep existing)
+          templateItem.imageUrl = (imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '') ? imageUrl : template.imageUrl || '';
           
           // Handle second image URL for layered templates
           const secondImageUrl = template.secondImageUrl || template.secondImage || template.secondImagePreview;
